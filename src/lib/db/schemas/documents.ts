@@ -1,4 +1,4 @@
-import { and, eq, relations } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 import {
   index,
   jsonb,
@@ -8,9 +8,8 @@ import {
   vector
 } from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
+import { files } from "./files";
 import { modules } from "./modules";
-import { files } from "./file";
-import { db } from "..";
 
 export const documents = pgTable(
   "document",
