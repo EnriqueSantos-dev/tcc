@@ -10,9 +10,18 @@ importers:
       "@auth/drizzle-adapter":
         specifier: ^1.4.1
         version: 1.4.1
+      "@lucia-auth/adapter-drizzle":
+        specifier: ^1.0.7
+        version: 1.0.7(lucia@3.2.0)
+      "@radix-ui/react-slot":
+        specifier: ^1.1.0
+        version: 1.1.0(@types/react@18.3.3)(react@18.3.1)
       "@t3-oss/env-nextjs":
         specifier: ^0.11.0
         version: 0.11.0(typescript@5.5.4)(zod@3.23.8)
+      arctic:
+        specifier: ^1.9.2
+        version: 1.9.2
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
@@ -25,6 +34,12 @@ importers:
       drizzle-orm:
         specifier: ^0.32.1
         version: 0.32.1(@types/react@18.3.3)(postgres@3.4.4)(react@18.3.1)
+      lucia:
+        specifier: ^3.2.0
+        version: 3.2.0
+      lucide-react:
+        specifier: ^0.418.0
+        version: 0.418.0(react@18.3.1)
       nanoid:
         specifier: ^5.0.7
         version: 5.0.7
@@ -296,6 +311,18 @@ packages:
         integrity: sha512-tpyc+7i6bPG9mvaBbtKUeghfyZSDgWquIDfMgqYtTbmZ9Y9VzEm2je9EYcQ0aoz5o7NvGS+rcDec93yO08MHYA==
       }
     engines: { node: ">=v18" }
+
+  "@emnapi/core@0.45.0":
+    resolution:
+      {
+        integrity: sha512-DPWjcUDQkCeEM4VnljEOEcXdAD7pp8zSZsgOujk/LGIwCXWbXJngin+MO4zbH429lzeC3WbYLGjE2MaUOwzpyw==
+      }
+
+  "@emnapi/runtime@0.45.0":
+    resolution:
+      {
+        integrity: sha512-Txumi3td7J4A/xTTwlssKieHKTGl3j4A1tglBx72auZ49YK7ePY6XZricgIg9mnZT4xPfA+UPCUdnhRuEFDL+w==
+      }
 
   "@esbuild-kit/core-utils@3.3.2":
     resolution:
@@ -806,6 +833,14 @@ packages:
         integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==
       }
 
+  "@lucia-auth/adapter-drizzle@1.0.7":
+    resolution:
+      {
+        integrity: sha512-X/V7fLBca8EC/gPXCntwbQpb0+F9oEuRoHElvsi9rCrdnGhCMNxHgwAvgiQ6pes+rIYpyvx4n3hvjqo/fPo03A==
+      }
+    peerDependencies:
+      lucia: 3.x
+
   "@next/env@14.2.5":
     resolution:
       {
@@ -899,6 +934,270 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  "@node-rs/argon2-android-arm-eabi@1.7.0":
+    resolution:
+      {
+        integrity: sha512-udDqkr5P9E+wYX1SZwAVPdyfYvaF4ry9Tm+R9LkfSHbzWH0uhU6zjIwNRp7m+n4gx691rk+lqqDAIP8RLKwbhg==
+      }
+    engines: { node: ">= 10" }
+    cpu: [arm]
+    os: [android]
+
+  "@node-rs/argon2-android-arm64@1.7.0":
+    resolution:
+      {
+        integrity: sha512-s9j/G30xKUx8WU50WIhF0fIl1EdhBGq0RQ06lEhZ0Gi0ap8lhqbE2Bn5h3/G2D1k0Dx+yjeVVNmt/xOQIRG38A==
+      }
+    engines: { node: ">= 10" }
+    cpu: [arm64]
+    os: [android]
+
+  "@node-rs/argon2-darwin-arm64@1.7.0":
+    resolution:
+      {
+        integrity: sha512-ZIz4L6HGOB9U1kW23g+m7anGNuTZ0RuTw0vNp3o+2DWpb8u8rODq6A8tH4JRL79S+Co/Nq608m9uackN2pe0Rw==
+      }
+    engines: { node: ">= 10" }
+    cpu: [arm64]
+    os: [darwin]
+
+  "@node-rs/argon2-darwin-x64@1.7.0":
+    resolution:
+      {
+        integrity: sha512-5oi/pxqVhODW/pj1+3zElMTn/YukQeywPHHYDbcAW3KsojFjKySfhcJMd1DjKTc+CHQI+4lOxZzSUzK7mI14Hw==
+      }
+    engines: { node: ">= 10" }
+    cpu: [x64]
+    os: [darwin]
+
+  "@node-rs/argon2-freebsd-x64@1.7.0":
+    resolution:
+      {
+        integrity: sha512-Ify08683hA4QVXYoIm5SUWOY5DPIT/CMB0CQT+IdxQAg/F+qp342+lUkeAtD5bvStQuCx/dFO3bnnzoe2clMhA==
+      }
+    engines: { node: ">= 10" }
+    cpu: [x64]
+    os: [freebsd]
+
+  "@node-rs/argon2-linux-arm-gnueabihf@1.7.0":
+    resolution:
+      {
+        integrity: sha512-7DjDZ1h5AUHAtRNjD19RnQatbhL+uuxBASuuXIBu4/w6Dx8n7YPxwTP4MXfsvuRgKuMWiOb/Ub/HJ3kXVCXRkg==
+      }
+    engines: { node: ">= 10" }
+    cpu: [arm]
+    os: [linux]
+
+  "@node-rs/argon2-linux-arm64-gnu@1.7.0":
+    resolution:
+      {
+        integrity: sha512-nJDoMP4Y3YcqGswE4DvP080w6O24RmnFEDnL0emdI8Nou17kNYBzP2546Nasx9GCyLzRcYQwZOUjrtUuQ+od2g==
+      }
+    engines: { node: ">= 10" }
+    cpu: [arm64]
+    os: [linux]
+
+  "@node-rs/argon2-linux-arm64-musl@1.7.0":
+    resolution:
+      {
+        integrity: sha512-BKWS8iVconhE3jrb9mj6t1J9vwUqQPpzCbUKxfTGJfc+kNL58F1SXHBoe2cDYGnHrFEHTY0YochzXoAfm4Dm/A==
+      }
+    engines: { node: ">= 10" }
+    cpu: [arm64]
+    os: [linux]
+
+  "@node-rs/argon2-linux-x64-gnu@1.7.0":
+    resolution:
+      {
+        integrity: sha512-EmgqZOlf4Jurk/szW1iTsVISx25bKksVC5uttJDUloTgsAgIGReCpUUO1R24pBhu9ESJa47iv8NSf3yAfGv6jQ==
+      }
+    engines: { node: ">= 10" }
+    cpu: [x64]
+    os: [linux]
+
+  "@node-rs/argon2-linux-x64-musl@1.7.0":
+    resolution:
+      {
+        integrity: sha512-/o1efYCYIxjfuoRYyBTi2Iy+1iFfhqHCvvVsnjNSgO1xWiWrX0Rrt/xXW5Zsl7vS2Y+yu8PL8KFWRzZhaVxfKA==
+      }
+    engines: { node: ">= 10" }
+    cpu: [x64]
+    os: [linux]
+
+  "@node-rs/argon2-wasm32-wasi@1.7.0":
+    resolution:
+      {
+        integrity: sha512-Evmk9VcxqnuwQftfAfYEr6YZYSPLzmKUsbFIMep5nTt9PT4XYRFAERj7wNYp+rOcBenF3X4xoB+LhwcOMTNE5w==
+      }
+    engines: { node: ">=14.0.0" }
+    cpu: [wasm32]
+
+  "@node-rs/argon2-win32-arm64-msvc@1.7.0":
+    resolution:
+      {
+        integrity: sha512-qgsU7T004COWWpSA0tppDqDxbPLgg8FaU09krIJ7FBl71Sz8SFO40h7fDIjfbTT5w7u6mcaINMQ5bSHu75PCaA==
+      }
+    engines: { node: ">= 10" }
+    cpu: [arm64]
+    os: [win32]
+
+  "@node-rs/argon2-win32-ia32-msvc@1.7.0":
+    resolution:
+      {
+        integrity: sha512-JGafwWYQ/HpZ3XSwP4adQ6W41pRvhcdXvpzIWtKvX+17+xEXAe2nmGWM6s27pVkg1iV2ZtoYLRDkOUoGqZkCcg==
+      }
+    engines: { node: ">= 10" }
+    cpu: [ia32]
+    os: [win32]
+
+  "@node-rs/argon2-win32-x64-msvc@1.7.0":
+    resolution:
+      {
+        integrity: sha512-9oq4ShyFakw8AG3mRls0AoCpxBFcimYx7+jvXeAf2OqKNO+mSA6eZ9z7KQeVCi0+SOEUYxMGf5UiGiDb9R6+9Q==
+      }
+    engines: { node: ">= 10" }
+    cpu: [x64]
+    os: [win32]
+
+  "@node-rs/argon2@1.7.0":
+    resolution:
+      {
+        integrity: sha512-zfULc+/tmcWcxn+nHkbyY8vP3+MpEqKORbszt4UkpqZgBgDAAIYvuDN/zukfTgdmo6tmJKKVfzigZOPk4LlIog==
+      }
+    engines: { node: ">= 10" }
+
+  "@node-rs/bcrypt-android-arm-eabi@1.9.0":
+    resolution:
+      {
+        integrity: sha512-nOCFISGtnodGHNiLrG0WYLWr81qQzZKYfmwHc7muUeq+KY0sQXyHOwZk9OuNQAWv/lnntmtbwkwT0QNEmOyLvA==
+      }
+    engines: { node: ">= 10" }
+    cpu: [arm]
+    os: [android]
+
+  "@node-rs/bcrypt-android-arm64@1.9.0":
+    resolution:
+      {
+        integrity: sha512-+ZrIAtigVmjYkqZQTThHVlz0+TG6D+GDHWhVKvR2DifjtqJ0i+mb9gjo++hN+fWEQdWNGxKCiBBjwgT4EcXd6A==
+      }
+    engines: { node: ">= 10" }
+    cpu: [arm64]
+    os: [android]
+
+  "@node-rs/bcrypt-darwin-arm64@1.9.0":
+    resolution:
+      {
+        integrity: sha512-CQiS+F9Pa0XozvkXR1g7uXE9QvBOPOplDg0iCCPRYTN9PqA5qYxhwe48G3o+v2UeQceNRrbnEtWuANm7JRqIhw==
+      }
+    engines: { node: ">= 10" }
+    cpu: [arm64]
+    os: [darwin]
+
+  "@node-rs/bcrypt-darwin-x64@1.9.0":
+    resolution:
+      {
+        integrity: sha512-4pTKGawYd7sNEjdJ7R/R67uwQH1VvwPZ0SSUMmeNHbxD5QlwAPXdDH11q22uzVXsvNFZ6nGQBg8No5OUGpx6Ug==
+      }
+    engines: { node: ">= 10" }
+    cpu: [x64]
+    os: [darwin]
+
+  "@node-rs/bcrypt-freebsd-x64@1.9.0":
+    resolution:
+      {
+        integrity: sha512-UmWzySX4BJhT/B8xmTru6iFif3h0Rpx3TqxRLCcbgmH43r7k5/9QuhpiyzpvKGpKHJCFNm4F3rC2wghvw5FCIg==
+      }
+    engines: { node: ">= 10" }
+    cpu: [x64]
+    os: [freebsd]
+
+  "@node-rs/bcrypt-linux-arm-gnueabihf@1.9.0":
+    resolution:
+      {
+        integrity: sha512-8qoX4PgBND2cVwsbajoAWo3NwdfJPEXgpCsZQZURz42oMjbGyhhSYbovBCskGU3EBLoC8RA2B1jFWooeYVn5BA==
+      }
+    engines: { node: ">= 10" }
+    cpu: [arm]
+    os: [linux]
+
+  "@node-rs/bcrypt-linux-arm64-gnu@1.9.0":
+    resolution:
+      {
+        integrity: sha512-TuAC6kx0SbcIA4mSEWPi+OCcDjTQUMl213v5gMNlttF+D4ieIZx6pPDGTaMO6M2PDHTeCG0CBzZl0Lu+9b0c7Q==
+      }
+    engines: { node: ">= 10" }
+    cpu: [arm64]
+    os: [linux]
+
+  "@node-rs/bcrypt-linux-arm64-musl@1.9.0":
+    resolution:
+      {
+        integrity: sha512-/sIvKDABOI8QOEnLD7hIj02BVaNOuCIWBKvxcJOt8+TuwJ6zmY1UI5kSv9d99WbiHjTp97wtAUbZQwauU4b9ew==
+      }
+    engines: { node: ">= 10" }
+    cpu: [arm64]
+    os: [linux]
+
+  "@node-rs/bcrypt-linux-x64-gnu@1.9.0":
+    resolution:
+      {
+        integrity: sha512-DyyhDHDsLBsCKz1tZ1hLvUZSc1DK0FU0v52jK6IBQxrj24WscSU9zZe7ie/V9kdmA4Ep57BfpWX8Dsa2JxGdgQ==
+      }
+    engines: { node: ">= 10" }
+    cpu: [x64]
+    os: [linux]
+
+  "@node-rs/bcrypt-linux-x64-musl@1.9.0":
+    resolution:
+      {
+        integrity: sha512-duIiuqQ+Lew8ASSAYm6ZRqcmfBGWwsi81XLUwz86a2HR7Qv6V4yc3ZAUQovAikhjCsIqe8C11JlAZSK6+PlXYg==
+      }
+    engines: { node: ">= 10" }
+    cpu: [x64]
+    os: [linux]
+
+  "@node-rs/bcrypt-wasm32-wasi@1.9.0":
+    resolution:
+      {
+        integrity: sha512-ylaGmn9Wjwv/D5lxtawttx3H6Uu2WTTR7lWlRHGT6Ga/MB1Vj4OjSGUW8G8zIVnKuXpGbZ92pgHlt4HUpSLctw==
+      }
+    engines: { node: ">=14.0.0" }
+    cpu: [wasm32]
+
+  "@node-rs/bcrypt-win32-arm64-msvc@1.9.0":
+    resolution:
+      {
+        integrity: sha512-2h86gF7QFyEzODuDFml/Dp1MSJoZjxJ4yyT2Erf4NkwsiA5MqowUhUsorRwZhX6+2CtlGa7orbwi13AKMsYndw==
+      }
+    engines: { node: ">= 10" }
+    cpu: [arm64]
+    os: [win32]
+
+  "@node-rs/bcrypt-win32-ia32-msvc@1.9.0":
+    resolution:
+      {
+        integrity: sha512-kqxalCvhs4FkN0+gWWfa4Bdy2NQAkfiqq/CEf6mNXC13RSV673Ev9V8sRlQyNpCHCNkeXfOT9pgoBdJmMs9muA==
+      }
+    engines: { node: ">= 10" }
+    cpu: [ia32]
+    os: [win32]
+
+  "@node-rs/bcrypt-win32-x64-msvc@1.9.0":
+    resolution:
+      {
+        integrity: sha512-2y0Tuo6ZAT2Cz8V7DHulSlv1Bip3zbzeXyeur+uR25IRNYXKvI/P99Zl85Fbuu/zzYAZRLLlGTRe6/9IHofe/w==
+      }
+    engines: { node: ">= 10" }
+    cpu: [x64]
+    os: [win32]
+
+  "@node-rs/bcrypt@1.9.0":
+    resolution:
+      {
+        integrity: sha512-u2OlIxW264bFUfvbFqDz9HZKFjwe8FHFtn7T/U8mYjPZ7DWYpbUB+/dkW/QgYfMSfR0ejkyuWaBBe0coW7/7ig==
+      }
+    engines: { node: ">= 10" }
+
   "@nodelib/fs.scandir@2.1.5":
     resolution:
       {
@@ -939,6 +1238,30 @@ packages:
         integrity: sha512-cq8o4cWH0ibXh9VGi5P20Tu9XF/0fFXl9EUinr9QfTM7a7p0oTA4iJRCQWppXR1Pg8dSM0UCItCkPwsk9qWWYA==
       }
     engines: { node: ^12.20.0 || ^14.18.0 || >=16.0.0 }
+
+  "@radix-ui/react-compose-refs@1.1.0":
+    resolution:
+      {
+        integrity: sha512-b4inOtiaOnYf9KWyO3jAeeCG6FeyfY6ldiEPanbUjWd+xIk5wZeHa8yVwmrJ2vderhu/BQvzCrJI0lHd+wIiqw==
+      }
+    peerDependencies:
+      "@types/react": "*"
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      "@types/react":
+        optional: true
+
+  "@radix-ui/react-slot@1.1.0":
+    resolution:
+      {
+        integrity: sha512-FUCf5XMfmW4dtYl69pdS4DbxKy8nj4M7SafBgPllysxmdachynNflAdp/gCsnYWNDnge6tI9onzMp5ARYc1KNw==
+      }
+    peerDependencies:
+      "@types/react": "*"
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      "@types/react":
+        optional: true
 
   "@rushstack/eslint-patch@1.10.3":
     resolution:
@@ -989,6 +1312,12 @@ packages:
       }
     peerDependencies:
       tailwindcss: ">=3.0.0 || insiders"
+
+  "@tybys/wasm-util@0.8.3":
+    resolution:
+      {
+        integrity: sha512-Z96T/L6dUFFxgFJ+pQtkPpne9q7i6kIPYCFnQBHSgSPV9idTsKfIhCss0h5iM9irweZCatkrdeP8yi5uM1eX6Q==
+      }
 
   "@types/conventional-commits-parser@5.0.0":
     resolution:
@@ -1173,6 +1502,12 @@ packages:
         integrity: sha512-KMReFUr0B4t+D+OBkjR3KYqvocp2XaSzO55UcB6mgQMd3KbcE+mWTyvVV7D/zsdEbNnV6acZUutkiHQXvTr1Rw==
       }
     engines: { node: ">= 8" }
+
+  arctic@1.9.2:
+    resolution:
+      {
+        integrity: sha512-VTnGpYx+ypboJdNrWnK17WeD7zN/xSCHnpecd5QYsBfVZde/5i+7DJ1wrf/ioSDMiEjagXmyNWAE3V2C9f1hNg==
+      }
 
   arg@5.0.2:
     resolution:
@@ -2236,6 +2571,12 @@ packages:
       }
     engines: { node: ">=14" }
 
+  fs-monkey@1.0.6:
+    resolution:
+      {
+        integrity: sha512-b1FMfwetIKymC0eioW7mTywihSQE4oLzQn1dB6rZB5fx/3NpNEdAWeCSMB+60/AeT0TCXsxzAlcYVEFCTAksWg==
+      }
+
   fs.realpath@1.0.0:
     resolution:
       {
@@ -3027,6 +3368,33 @@ packages:
         integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==
       }
 
+  lucia@3.2.0:
+    resolution:
+      {
+        integrity: sha512-eXMxXwk6hqtjRTj4W/x3EnTUtAztLPm0p2N2TEBMDEbakDLXiYnDQ9z/qahjPdPdhPguQc+vwO0/88zIWxlpuw==
+      }
+
+  lucide-react@0.418.0:
+    resolution:
+      {
+        integrity: sha512-7TSd4CLfvT/U9504MSJ+e03pgAvqZQ5WbML4Pm+axjCbYBLTWuDu68bebFr/e51Z32uHMY7MO+SpaHX8NubveA==
+      }
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
+  memfs-browser@3.5.10302:
+    resolution:
+      {
+        integrity: sha512-JJTc/nh3ig05O0gBBGZjTCPOyydaTxNF0uHYBrcc1gHNnO+KIHIvo0Y1FKCJsaei6FCl8C6xfQomXqu+cuzkIw==
+      }
+
+  memfs@3.5.3:
+    resolution:
+      {
+        integrity: sha512-UERzLsxzllchadvbPs5aolHh65ISpKpM+ccLbOJ8/vvpBKmAWf+la7dXFy7Mr0ySHbdHrFv5kGFCUHHe6GFEmw==
+      }
+    engines: { node: ">= 4.0.0" }
+
   meow@12.1.1:
     resolution:
       {
@@ -3297,6 +3665,12 @@ packages:
         integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==
       }
     engines: { node: ">= 0.8.0" }
+
+  oslo@1.2.0:
+    resolution:
+      {
+        integrity: sha512-OoFX6rDsNcOQVAD2gQD/z03u4vEjWZLzJtwkmgfRF+KpQUXwdgEXErD7zNhyowmHwHefP+PM9Pw13pgpHMRlzw==
+      }
 
   p-limit@3.1.0:
     resolution:
@@ -4523,6 +4897,16 @@ snapshots:
       "@types/conventional-commits-parser": 5.0.0
       chalk: 5.3.0
 
+  "@emnapi/core@0.45.0":
+    dependencies:
+      tslib: 2.6.3
+    optional: true
+
+  "@emnapi/runtime@0.45.0":
+    dependencies:
+      tslib: 2.6.3
+    optional: true
+
   "@esbuild-kit/core-utils@3.3.2":
     dependencies:
       esbuild: 0.18.20
@@ -4729,6 +5113,10 @@ snapshots:
       "@jridgewell/resolve-uri": 3.1.2
       "@jridgewell/sourcemap-codec": 1.5.0
 
+  "@lucia-auth/adapter-drizzle@1.0.7(lucia@3.2.0)":
+    dependencies:
+      lucia: 3.2.0
+
   "@next/env@14.2.5": {}
 
   "@next/eslint-plugin-next@14.2.5":
@@ -4762,6 +5150,134 @@ snapshots:
   "@next/swc-win32-x64-msvc@14.2.5":
     optional: true
 
+  "@node-rs/argon2-android-arm-eabi@1.7.0":
+    optional: true
+
+  "@node-rs/argon2-android-arm64@1.7.0":
+    optional: true
+
+  "@node-rs/argon2-darwin-arm64@1.7.0":
+    optional: true
+
+  "@node-rs/argon2-darwin-x64@1.7.0":
+    optional: true
+
+  "@node-rs/argon2-freebsd-x64@1.7.0":
+    optional: true
+
+  "@node-rs/argon2-linux-arm-gnueabihf@1.7.0":
+    optional: true
+
+  "@node-rs/argon2-linux-arm64-gnu@1.7.0":
+    optional: true
+
+  "@node-rs/argon2-linux-arm64-musl@1.7.0":
+    optional: true
+
+  "@node-rs/argon2-linux-x64-gnu@1.7.0":
+    optional: true
+
+  "@node-rs/argon2-linux-x64-musl@1.7.0":
+    optional: true
+
+  "@node-rs/argon2-wasm32-wasi@1.7.0":
+    dependencies:
+      "@emnapi/core": 0.45.0
+      "@emnapi/runtime": 0.45.0
+      "@tybys/wasm-util": 0.8.3
+      memfs-browser: 3.5.10302
+    optional: true
+
+  "@node-rs/argon2-win32-arm64-msvc@1.7.0":
+    optional: true
+
+  "@node-rs/argon2-win32-ia32-msvc@1.7.0":
+    optional: true
+
+  "@node-rs/argon2-win32-x64-msvc@1.7.0":
+    optional: true
+
+  "@node-rs/argon2@1.7.0":
+    optionalDependencies:
+      "@node-rs/argon2-android-arm-eabi": 1.7.0
+      "@node-rs/argon2-android-arm64": 1.7.0
+      "@node-rs/argon2-darwin-arm64": 1.7.0
+      "@node-rs/argon2-darwin-x64": 1.7.0
+      "@node-rs/argon2-freebsd-x64": 1.7.0
+      "@node-rs/argon2-linux-arm-gnueabihf": 1.7.0
+      "@node-rs/argon2-linux-arm64-gnu": 1.7.0
+      "@node-rs/argon2-linux-arm64-musl": 1.7.0
+      "@node-rs/argon2-linux-x64-gnu": 1.7.0
+      "@node-rs/argon2-linux-x64-musl": 1.7.0
+      "@node-rs/argon2-wasm32-wasi": 1.7.0
+      "@node-rs/argon2-win32-arm64-msvc": 1.7.0
+      "@node-rs/argon2-win32-ia32-msvc": 1.7.0
+      "@node-rs/argon2-win32-x64-msvc": 1.7.0
+
+  "@node-rs/bcrypt-android-arm-eabi@1.9.0":
+    optional: true
+
+  "@node-rs/bcrypt-android-arm64@1.9.0":
+    optional: true
+
+  "@node-rs/bcrypt-darwin-arm64@1.9.0":
+    optional: true
+
+  "@node-rs/bcrypt-darwin-x64@1.9.0":
+    optional: true
+
+  "@node-rs/bcrypt-freebsd-x64@1.9.0":
+    optional: true
+
+  "@node-rs/bcrypt-linux-arm-gnueabihf@1.9.0":
+    optional: true
+
+  "@node-rs/bcrypt-linux-arm64-gnu@1.9.0":
+    optional: true
+
+  "@node-rs/bcrypt-linux-arm64-musl@1.9.0":
+    optional: true
+
+  "@node-rs/bcrypt-linux-x64-gnu@1.9.0":
+    optional: true
+
+  "@node-rs/bcrypt-linux-x64-musl@1.9.0":
+    optional: true
+
+  "@node-rs/bcrypt-wasm32-wasi@1.9.0":
+    dependencies:
+      "@emnapi/core": 0.45.0
+      "@emnapi/runtime": 0.45.0
+      "@tybys/wasm-util": 0.8.3
+      memfs-browser: 3.5.10302
+    optional: true
+
+  "@node-rs/bcrypt-win32-arm64-msvc@1.9.0":
+    optional: true
+
+  "@node-rs/bcrypt-win32-ia32-msvc@1.9.0":
+    optional: true
+
+  "@node-rs/bcrypt-win32-x64-msvc@1.9.0":
+    optional: true
+
+  "@node-rs/bcrypt@1.9.0":
+    optionalDependencies:
+      "@node-rs/bcrypt-android-arm-eabi": 1.9.0
+      "@node-rs/bcrypt-android-arm64": 1.9.0
+      "@node-rs/bcrypt-darwin-arm64": 1.9.0
+      "@node-rs/bcrypt-darwin-x64": 1.9.0
+      "@node-rs/bcrypt-freebsd-x64": 1.9.0
+      "@node-rs/bcrypt-linux-arm-gnueabihf": 1.9.0
+      "@node-rs/bcrypt-linux-arm64-gnu": 1.9.0
+      "@node-rs/bcrypt-linux-arm64-musl": 1.9.0
+      "@node-rs/bcrypt-linux-x64-gnu": 1.9.0
+      "@node-rs/bcrypt-linux-x64-musl": 1.9.0
+      "@node-rs/bcrypt-wasm32-wasi": 1.9.0
+      "@node-rs/bcrypt-win32-arm64-msvc": 1.9.0
+      "@node-rs/bcrypt-win32-ia32-msvc": 1.9.0
+      "@node-rs/bcrypt-win32-x64-msvc": 1.9.0
+
   "@nodelib/fs.scandir@2.1.5":
     dependencies:
       "@nodelib/fs.stat": 2.0.5
@@ -4780,6 +5296,19 @@ snapshots:
     optional: true
 
   "@pkgr/core@0.1.1": {}
+
+  "@radix-ui/react-compose-refs@1.1.0(@types/react@18.3.3)(react@18.3.1)":
+    dependencies:
+      react: 18.3.1
+    optionalDependencies:
+      "@types/react": 18.3.3
+
+  "@radix-ui/react-slot@1.1.0(@types/react@18.3.3)(react@18.3.1)":
+    dependencies:
+      "@radix-ui/react-compose-refs": 1.1.0(@types/react@18.3.3)(react@18.3.1)
+      react: 18.3.1
+    optionalDependencies:
+      "@types/react": 18.3.3
 
   "@rushstack/eslint-patch@1.10.3": {}
 
@@ -4810,6 +5339,11 @@ snapshots:
       lodash.merge: 4.6.2
       postcss-selector-parser: 6.0.10
       tailwindcss: 3.4.7
+
+  "@tybys/wasm-util@0.8.3":
+    dependencies:
+      tslib: 2.6.3
+    optional: true
 
   "@types/conventional-commits-parser@5.0.0":
     dependencies:
@@ -4925,6 +5459,10 @@ snapshots:
     dependencies:
       normalize-path: 3.0.0
       picomatch: 2.3.1
+
+  arctic@1.9.2:
+    dependencies:
+      oslo: 1.2.0
 
   arg@5.0.2: {}
 
@@ -5740,6 +6278,9 @@ snapshots:
       cross-spawn: 7.0.3
       signal-exit: 4.1.0
 
+  fs-monkey@1.0.6:
+    optional: true
+
   fs.realpath@1.0.0: {}
 
   fsevents@2.3.3:
@@ -6165,6 +6706,24 @@ snapshots:
 
   lru-cache@10.4.3: {}
 
+  lucia@3.2.0:
+    dependencies:
+      oslo: 1.2.0
+
+  lucide-react@0.418.0(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+
+  memfs-browser@3.5.10302:
+    dependencies:
+      memfs: 3.5.3
+    optional: true
+
+  memfs@3.5.3:
+    dependencies:
+      fs-monkey: 1.0.6
+    optional: true
+
   meow@12.1.1: {}
 
   merge-stream@2.0.0: {}
@@ -6316,6 +6875,11 @@ snapshots:
       prelude-ls: 1.2.1
       type-check: 0.4.0
       word-wrap: 1.2.5
+
+  oslo@1.2.0:
+    dependencies:
+      "@node-rs/argon2": 1.7.0
+      "@node-rs/bcrypt": 1.9.0
 
   p-limit@3.1.0:
     dependencies:
