@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1722114815897,
+      "tag": "0000_init",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1722117297188,
+      "tag": "0001_add_file_table_and_relation_with_documents_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1722469300152,
+      "tag": "0002_change_tables_to_support_lucia_auth_setup",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1722469512111,
+      "tag": "0003_change_id_column_pk_in_sessions_table",
+      "breakpoints": true
+    }
+  ]
+}
