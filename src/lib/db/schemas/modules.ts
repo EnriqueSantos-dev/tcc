@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { InferSelectModel, relations, sql } from "drizzle-orm";
 import { pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
 import { documents } from "./documents";
@@ -24,3 +24,5 @@ export const modulesRelations = relations(modules, ({ one, many }) => ({
   }),
   documents: many(documents)
 }));
+
+export type Module = InferSelectModel<typeof modules>;

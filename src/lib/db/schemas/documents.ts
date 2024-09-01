@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { InferSelectModel, relations } from "drizzle-orm";
 import {
   index,
   jsonb,
@@ -45,3 +45,5 @@ export const documentsRelations = relations(documents, ({ one }) => ({
     references: [files.id]
   })
 }));
+
+export type Document = InferSelectModel<typeof documents>;
