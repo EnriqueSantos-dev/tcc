@@ -21,3 +21,23 @@ export interface GitHubUser {
 export type UserWithoutPassword = Omit<User, "passwordHash">;
 
 export type OAuthProvider = "google" | "github";
+
+export type NavItem = {
+  icon: React.ElementType;
+  label: string;
+  href: string;
+};
+
+export type PaginationMetadata = {
+  pagesCount: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  page: number;
+  nextPage: number | null;
+  previousPage: number | null;
+};
+
+export type PaginatedResource<T> = {
+  data: T[];
+  metadata: PaginationMetadata;
+};

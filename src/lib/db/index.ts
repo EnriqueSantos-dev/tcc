@@ -1,10 +1,24 @@
-import { drizzle } from "drizzle-orm/postgres-js";
+import { drizzle, type PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import * as schema from "./schemas";
 import { env } from "../env.mjs";
+import * as schema from "./schemas";
 
-const connectionString = env.DATABASE_URL;
+declare global {
+  // eslint-disable-next-line no-var -- only var works here
+  var db: PostgresJsDatabase<typeof schema>;
+}
 
-// Disable prefetch as it is not supported for "Transaction" pool mode
-const client = postgres(connectionString, { prepare: false });
-export const db = drizzle(client, { schema });
+let db: PostgresJsDatabase<typeof schema>;
+
+if (env.NODE_ENV === "production") {
+  db = drizzle(postgres(env.DATABASE_URL, { prepare: false }), { schema });
+} else {
+  if (!global.db)
+    global.db = drizzle(postgres(env.DATABASE_URL, { prepare: false }), {
+      schema
+    });
+
+  db = global.db;
+}
+
+export { db };
