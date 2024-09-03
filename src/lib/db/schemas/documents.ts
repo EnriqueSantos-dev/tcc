@@ -1,9 +1,10 @@
-import { InferSelectModel, relations } from "drizzle-orm";
+import { InferSelectModel, relations, sql } from "drizzle-orm";
 import {
   index,
   jsonb,
   pgTable,
   text,
+  timestamp,
   varchar,
   vector
 } from "drizzle-orm/pg-core";
@@ -18,14 +19,23 @@ export const documents = pgTable(
       .primaryKey()
       .$defaultFn(() => nanoid()),
     moduleId: text("module_id")
-      .references(() => modules.id)
+      .references(() => modules.id, {
+        onDelete: "cascade"
+      })
       .notNull(),
     fileId: text("file_id")
       .references(() => files.id)
       .notNull(),
     content: text("content").notNull(),
     metadata: jsonb("metadata"),
-    embedding: vector("embedding", { dimensions: 1536 }).notNull()
+    embedding: vector("embedding", { dimensions: 1536 }).notNull(),
+    createdAt: timestamp("created_at", { mode: "string" })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { mode: "string" })
+      .notNull()
+      .defaultNow()
+      .$onUpdateFn(() => sql`current_timestamp`)
   },
   (table) => ({
     embeddingIndex: index("embeddingIndex").using(

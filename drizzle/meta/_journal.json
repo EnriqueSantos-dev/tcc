@@ -29,6 +29,13 @@
       "when": 1722469512111,
       "tag": "0003_change_id_column_pk_in_sessions_table",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1725368163172,
+      "tag": "0004_fluffy_juggernaut",
+      "breakpoints": true
     }
   ]
 }
