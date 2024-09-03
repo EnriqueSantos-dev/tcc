@@ -11,6 +11,7 @@ import {
 import { nanoid } from "nanoid";
 import { files } from "./files";
 import { modules } from "./modules";
+import { users } from "./users";
 
 export const documents = pgTable(
   "document",
@@ -18,14 +19,17 @@ export const documents = pgTable(
     id: varchar("id", { length: 191 })
       .primaryKey()
       .$defaultFn(() => nanoid()),
+    name: varchar("name", { length: 255 }).notNull(),
+    description: varchar("description", { length: 255 }),
+    ownerId: text("owner_id")
+      .references(() => users.id)
+      .notNull(),
     moduleId: text("module_id")
       .references(() => modules.id, {
         onDelete: "cascade"
       })
       .notNull(),
-    fileId: text("file_id")
-      .references(() => files.id)
-      .notNull(),
+    fileId: text("file_id").references(() => files.id),
     content: text("content").notNull(),
     metadata: jsonb("metadata"),
     embedding: vector("embedding", { dimensions: 1536 }).notNull(),
