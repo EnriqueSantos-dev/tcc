@@ -43,6 +43,13 @@
       "when": 1725368644855,
       "tag": "0005_closed_senator_kelly",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1725565233753,
+      "tag": "0006_minor_hulk",
+      "breakpoints": true
     }
   ]
 }
