@@ -67,6 +67,7 @@ export default function CreateDocumentDialog({
   });
 
   const handleOpenChange = (isOpen: boolean) => {
+    if (isPending) return;
     if (!isOpen) {
       form.reset({
         file: undefined
@@ -92,9 +93,7 @@ export default function CreateDocumentDialog({
       return;
     }
 
-    form.reset({
-      file: undefined
-    });
+    setIsOpen(false);
   });
 
   return (

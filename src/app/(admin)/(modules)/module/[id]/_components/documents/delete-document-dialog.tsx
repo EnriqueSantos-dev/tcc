@@ -5,14 +5,12 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger
+  AlertDialogTitle
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2Icon, Trash2Icon } from "lucide-react";
-import { FormEvent, useState, useTransition } from "react";
-import { useServerAction } from "zsa-react";
+import { Loader2Icon } from "lucide-react";
+import { FormEvent, useTransition } from "react";
 import { deleteDocumentAction } from "../../actions";
 
 export default function DeleteDocumentDialog({
@@ -42,21 +40,25 @@ export default function DeleteDocumentDialog({
     onOpenChange(isOpen);
   };
 
-  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("Delete document with id: ", id);
 
-    startTransaction(() => {
+    startTransaction(async () => {
       onDocumentDelete(id);
-      /* const [_, error] = await deleteDocumentAction({ id, ownerId, moduleId, moduleOwnerId });
-
-    if (error) {
-      onOpenChange(false);
-      toast({
-        variant: "destructive",
-        title: error.message
+      const [_, error] = await deleteDocumentAction({
+        id,
+        ownerId,
+        moduleId,
+        moduleOwnerId
       });
-    } */
+
+      if (error) {
+        onOpenChange(false);
+        toast({
+          variant: "destructive",
+          title: error.message
+        });
+      }
     });
   };
 

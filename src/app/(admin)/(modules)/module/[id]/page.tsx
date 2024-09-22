@@ -20,6 +20,7 @@ import DeleteModuleDialog from "./_components/delete-module-dialog";
 import { DataTable } from "./_components/documents/data-table";
 import EditModuleDialogForm from "./_components/edit-module-dialog-form";
 import { DocumentDataTableColumnDto } from "./_components/documents/columns";
+import { log } from "node:console";
 
 const moduleByIdSearchParamsSchema = z.object({
   search: z.string().optional(),

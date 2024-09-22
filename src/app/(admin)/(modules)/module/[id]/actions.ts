@@ -17,6 +17,7 @@ import path from "path";
 import { z } from "zod";
 import { editModuleSchema } from "../../validation";
 import { createDocumentSchema, editDocumentSchema } from "./validations";
+import { embeddings as embeddingsTable } from "@/lib/db/schemas/embeddings";
 
 const procedure = authenticatedProcedure.createServerAction();
 
@@ -167,7 +168,11 @@ export const createDocumentAction = procedure
       input.file.name.trim().toLowerCase(),
       fileExtension
     );
-    const fileNameToSave = `mo_${input.moduleId}-${nanoid()}-${originalFileName}.${fileExtension}`;
+    const fileNameToSave =
+      `mo_${input.moduleId}-${nanoid()}-${originalFileName}${fileExtension}`.replaceAll(
+        /\s/g,
+        "-"
+      );
 
     const bucket = env.SUPABASE_BUCKET;
 
@@ -183,7 +188,8 @@ export const createDocumentAction = procedure
       );
     }
 
-    const docs = await generateDocuments(input.file);
+    const metadata = { fileUrl: uploadedFileUrl };
+    const docs = await generateDocuments(input.file, metadata);
 
     if (!docs) {
       throw new Error("Não foi possível criar o documento");
@@ -207,15 +213,25 @@ export const createDocumentAction = procedure
         })
         .returning({ id: files.id });
 
-      await tx.insert(documents).values({
-        name: input.name,
-        embedding: [],
-        description: input.description,
-        fileId: file.id,
-        moduleId: input.moduleId,
-        ownerId: ctx.user.id,
-        content: ""
-      });
+      const [createdDoc] = await tx
+        .insert(documents)
+        .values({
+          name: input.name,
+          description: input.description,
+          fileId: file.id,
+          moduleId: input.moduleId,
+          ownerId: ctx.user.id
+        })
+        .returning({ id: documents.id });
+
+      await tx.insert(embeddingsTable).values(
+        embeddings.map((embedding, index) => ({
+          documentId: createdDoc.id,
+          content: docs[index].pageContent,
+          metadata: docs[index].metadata,
+          embedding
+        }))
+      );
     });
 
     revalidatePath(`/module/${input.moduleId}`);

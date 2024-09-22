@@ -1,13 +1,15 @@
-import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
-import { DataTableRowActions } from "./data-table-row-actions";
-import { Module } from "@/lib/db/schemas";
-import { Document } from "@/lib/db/schemas/documents";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { File, Module } from "@/lib/db/schemas";
+import { Document } from "@/lib/db/schemas/documents";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { ExternalLinkIcon } from "lucide-react";
-import { Action } from "./data-table";
+import Link from "next/link";
+import { DataTableMeta } from "./data-table";
+import { DataTableRowActions } from "./data-table-row-actions";
+import { formatFileSize } from "@/lib/utils";
 
 export type DocumentDataTableColumnDto = Document & {
+  file: File;
   module: Pick<Module, "id" | "userId">;
   permissions: {
     canEditDocument: boolean;
@@ -46,52 +48,45 @@ export const columns: ColumnDef<DocumentDataTableColumnDto, any>[] = [
       );
     }
   }),
-  columnHelper.accessor("createdAt", {
-    header: "Criado em",
+
+  columnHelper.accessor("file.fileName", {
+    header: "Nome do arquivo",
     cell: ({ row }) => {
       return (
-        <p className="text-sm">
-          {new Intl.DateTimeFormat("pt-BR", {
-            dateStyle: "medium"
-          }).format(new Date(row.getValue("createdAt")))}
+        <p className="max-w-[150px] truncate text-sm">
+          {row.original.file.fileName}
         </p>
       );
     }
   }),
-  columnHelper.accessor("updatedAt", {
-    header: "Atualizado em",
+  columnHelper.accessor("file.fileSize", {
+    header: "Tamanho do arquivo",
     cell: ({ row }) => {
       return (
-        <p className="text-sm">
-          {new Intl.DateTimeFormat("pt-BR", {
-            dateStyle: "medium"
-          }).format(new Date(row.getValue("updatedAt")))}
-        </p>
+        <p className="text-sm">{formatFileSize(row.original.file.fileSize)}</p>
       );
     }
   }),
   columnHelper.display({
     id: "actions",
-    cell: (props) => {
+    cell: ({ row, table }) => {
       return (
         <DataTableRowActions
           row={{
-            id: props.row.original.id,
-            description: props.row.original.description || "",
-            name: props.row.original.name,
+            id: row.original.id,
+            description: row.original.description ?? "",
+            name: row.original.name,
             module: {
-              id: props.row.original.module.id,
-              userId: props.row.original.module.userId
+              id: row.original.module.id,
+              userId: row.original.module.userId
             },
-            ownerId: props.row.original.ownerId,
-            permissions: props.row.original.permissions
+            ownerId: row.original.ownerId,
+            permissions: row.original.permissions,
+            fileUrl: row.original.file.fileUrl,
+            fileName: row.original.file.fileName
           }}
           onOptimisticUpdate={
-            (
-              props.table.options.meta as {
-                optimisticSetValue: (action: Action) => void;
-              }
-            ).optimisticSetValue
+            (table.options.meta as DataTableMeta).optimisticSetValue
           }
         />
       );

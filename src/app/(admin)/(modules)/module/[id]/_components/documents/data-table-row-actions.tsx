@@ -14,12 +14,15 @@ import { z } from "zod";
 import { Action, ACTION_TYPE } from "./data-table";
 import DeleteDocumentDialog from "./delete-document-dialog";
 import EditDocumentDialog from "./edit-document-dialog";
+import Link from "next/link";
 
 const rowSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
   ownerId: z.string().min(1),
   description: z.string(),
+  fileUrl: z.string().url(),
+  fileName: z.string().min(1),
   module: z.object({
     id: z.string().min(1),
     userId: z.string().min(1)
@@ -88,11 +91,21 @@ export function DataTableRowActions({
           <DropdownMenuItem onSelect={() => setIsOpenDeleteDialog(true)}>
             Deletar
           </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link
+              target="_blank"
+              href={parsedRow.fileUrl}
+              download={parsedRow.fileName}
+            >
+              Baixar arquivo
+            </Link>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
       <EditDocumentDialog
         id={parsedRow.id}
         name={parsedRow.name}
+        description={parsedRow.description}
         moduleId={parsedRow.module.id}
         moduleOwnerId={parsedRow.module.userId}
         ownerId={parsedRow.ownerId}
