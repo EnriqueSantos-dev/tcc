@@ -16,7 +16,10 @@ const generateDocsFromTxt = async (
   }).splitDocuments(
     docs.map((doc) => ({
       ...doc,
-      ...metadata
+      metadata: {
+        ...doc.metadata,
+        ...metadata
+      }
     }))
   );
   return splittedDocuments;
@@ -33,7 +36,10 @@ const generateDocsFromPdf = async (
   const docs = await loader.load();
   const splittedDocuments = docs.map((doc) => ({
     ...doc,
-    ...metadata
+    metadata: {
+      ...doc.metadata,
+      ...metadata
+    }
   }));
 
   return splittedDocuments;
@@ -45,7 +51,8 @@ const GENERATORS_BY_MIME_TYPE = {
 };
 
 export async function generateDocuments(
-  file: File
+  file: File,
+  metadata?: Record<string, string | number>
 ): Promise<LangchainDocument[] | null> {
   const fileMimeType = file.type;
   if (!(fileMimeType in GENERATORS_BY_MIME_TYPE)) {
@@ -58,7 +65,7 @@ export async function generateDocuments(
         fileMimeType as keyof typeof GENERATORS_BY_MIME_TYPE
       ];
 
-    return await generator(file);
+    return await generator(file, metadata);
   } catch (error) {
     console.log("Error generating documents", error);
     return null;
