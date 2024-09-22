@@ -1,9 +1,9 @@
 import { defaultPaginationConfig } from "@/constants/pagination";
+import { getPaginatedModules } from "@/lib/modules";
 import { getUserPermissions } from "@/lib/permissions";
 import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { getPaginatedModules } from "../_lib/modules";
 import { columns } from "./_components/columns";
 import { DataTable } from "./_components/data-table";
 import { DataTablePagination } from "./_components/data-table-pagination";
