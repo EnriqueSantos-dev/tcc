@@ -1,3 +1,4 @@
+import { InferSelectModel, sql } from "drizzle-orm";
 import {
   integer,
   pgTable,
@@ -15,6 +16,14 @@ export const files = pgTable("file", {
   fileUrl: text("file_url").notNull(),
   fileType: text("file_type").notNull(),
   fileSize: integer("file_size").notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow()
+  createdAt: timestamp("created_at", { mode: "string" })
+    .notNull()
+    .defaultNow()
+    .$onUpdateFn(() => sql`current_timestamp`),
+  updatedAt: timestamp("updated_at", { mode: "string" })
+    .notNull()
+    .defaultNow()
+    .$onUpdateFn(() => sql`current_timestamp`)
 });
+
+export type File = InferSelectModel<typeof files>;

@@ -1,4 +1,4 @@
-import { User } from "@/lib/db/schemas";
+import { Document, File, Module, User } from "@/lib/db/schemas";
 
 export interface GoogleUser {
   sub: string;
@@ -22,6 +22,20 @@ export type UserWithoutPassword = Omit<User, "passwordHash">;
 
 export type OAuthProvider = "google" | "github";
 
+export type ModuleWithUserAndDocumentsCount = Omit<
+  Module,
+  "createdAt" | "updatedAt"
+> & {
+  createdAt: string;
+  updatedAt: string;
+  user: Pick<User, "email"> | null;
+  documents: string;
+};
+
+export type ModuleWithUser = Module & {
+  user: Pick<User, "email"> | null;
+};
+
 export type NavItem = {
   icon: React.ElementType;
   label: string;
@@ -41,3 +55,9 @@ export type PaginatedResource<T> = {
   data: T[];
   metadata: PaginationMetadata;
 };
+
+export type DocumentWithFile = Document & {
+  file: File;
+};
+
+export type OptimisticEntity<T> = { isPending?: boolean } & T;
