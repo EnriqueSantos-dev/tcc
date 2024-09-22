@@ -1,14 +1,11 @@
-"use client";
-
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger
+  DialogTitle
 } from "@/components/ui/dialog";
 import {
   Form,
@@ -20,92 +17,100 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger
-} from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, PencilIcon } from "lucide-react";
-import { useState } from "react";
+import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useServerAction } from "zsa-react";
-import { editModuleSchema } from "../../../validation";
-import { editModule } from "../actions";
+import { editDocumentAction } from "../../actions";
+import { editDocumentSchema } from "../../validations";
+import { Action, ACTION_TYPE } from "./data-table";
+import { useTransition } from "react";
 
-type EditModuleDialogFormProps = {
-  canEditModule: boolean;
-  module: {
-    id: string;
-    name: string;
-    description: string;
-    ownerId: string;
-  };
-};
-
-export default function EditModuleDialogForm({
-  canEditModule,
-  module
-}: EditModuleDialogFormProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const { isPending, execute } = useServerAction(editModule);
+export default function EditDocumentDialog({
+  id,
+  name,
+  description,
+  ownerId,
+  moduleOwnerId,
+  moduleId,
+  canEdit,
+  onEdit,
+  isOpen,
+  onOpenChange
+}: {
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+  id: string;
+  name: string;
+  description?: string;
+  ownerId: string;
+  moduleId: string;
+  moduleOwnerId: string;
+  canEdit: boolean;
+  onEdit: (
+    payload: Pick<
+      Extract<Action, { type: typeof ACTION_TYPE.EDIT }>,
+      "payload"
+    >["payload"]
+  ) => void;
+}) {
+  const [isPending, startTransaction] = useTransition();
   const { toast } = useToast();
 
-  const form = useForm<z.infer<typeof editModuleSchema>>({
+  const form = useForm<z.infer<typeof editDocumentSchema>>({
     defaultValues: {
-      id: module.id,
-      ownerId: module.ownerId,
-      name: module.name,
-      description: module.description
+      id,
+      description: description ?? "",
+      name,
+      ownerId,
+      module: {
+        id: moduleId,
+        userId: moduleOwnerId
+      }
     },
-    resolver: zodResolver(editModuleSchema)
+    resolver: zodResolver(editDocumentSchema)
   });
 
-  const onOpenChange = (isOpen: boolean) => {
+  const handleOpenChange = (isOpen: boolean) => {
     if (!isOpen && isPending) return;
     if (!isOpen) form.reset();
-    setIsOpen(isOpen);
+    onOpenChange(isOpen);
   };
 
   const onSubmit = form.handleSubmit(async (values) => {
-    const [_, error] = await execute(values);
+    startTransaction(async () => {
+      onEdit({ id, data: values });
+      const [_, error] = await editDocumentAction(values);
 
-    if (error) {
+      if (error) {
+        toast({
+          title: error.message,
+          variant: "destructive"
+        });
+        form.reset();
+        onOpenChange(false);
+        return;
+      }
+
       toast({
-        title: error.message,
-        variant: "destructive"
+        title: "O documento foi editado com sucesso.",
+        variant: "success"
       });
-      return;
-    }
 
-    toast({
-      title: "O módulo foi editado com sucesso.",
-      variant: "success"
+      form.reset();
+      onOpenChange(false);
     });
-
-    form.reset({
-      name: values.name,
-      description: values.description
-    });
-    setIsOpen(false);
   });
 
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogTrigger
-        disabled={!canEditModule}
-        className={buttonVariants({ size: "sm" })}
-      >
-        <PencilIcon className="size-4 shrink-0 md:mr-2" />
-        <span className="hidden md:inline">Editar</span>
-      </DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Editar módulo</DialogTitle>
+          <DialogTitle>Editar documento</DialogTitle>
           <DialogDescription>
-            Editando o módulo &ldquo;{module.name}&ldquo;.
+            Editando o documento &ldquo;{name}&ldquo;.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -121,7 +126,7 @@ export default function EditModuleDialogForm({
                       <Input
                         {...field}
                         type="text"
-                        placeholder="Ex: Matrícula"
+                        placeholder="Ex: Documento de matrícula"
                       />
                     </FormControl>
                     <FormMessage />
@@ -138,7 +143,7 @@ export default function EditModuleDialogForm({
                       <Textarea
                         {...field}
                         className="max-h-20 resize-none"
-                        placeholder="Módulo que contém documentos referente a matrículas."
+                        placeholder="Ex: Documento que contém tutoriais para criação de matrícula."
                       />
                     </FormControl>
                     <FormMessage />
@@ -147,7 +152,7 @@ export default function EditModuleDialogForm({
               />
             </div>
             <DialogFooter>
-              <Button type="submit" disabled={isPending || !canEditModule}>
+              <Button type="submit" disabled={isPending || !canEdit}>
                 {isPending ? (
                   <>
                     <Loader2 className="mr-2 size-4 animate-spin" />

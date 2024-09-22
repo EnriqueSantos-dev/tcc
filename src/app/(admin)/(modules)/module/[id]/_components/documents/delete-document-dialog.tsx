@@ -1,5 +1,3 @@
-"use client";
-
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -13,56 +11,66 @@ import {
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2Icon, Trash2Icon } from "lucide-react";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useTransition } from "react";
 import { useServerAction } from "zsa-react";
-import { deleteModule } from "../actions";
+import { deleteDocumentAction } from "../../actions";
 
-export default function DeleteModuleDialog({
+export default function DeleteDocumentDialog({
+  id,
+  ownerId,
+  moduleOwnerId,
   moduleId,
-  canEditModule
+  canDelete,
+  onDocumentDelete,
+  isOpen,
+  onOpenChange
 }: {
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+  id: string;
+  ownerId: string;
   moduleId: string;
-  canEditModule: boolean;
+  moduleOwnerId: string;
+  canDelete: boolean;
+  onDocumentDelete: (documentId: string) => void;
 }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const { execute, isPending } = useServerAction(deleteModule);
+  const [isPending, startTransaction] = useTransition();
   const { toast } = useToast();
 
-  const onOpenChange = (isOpen: boolean) => {
+  const handleOpenChange = (isOpen: boolean) => {
     if (isOpen && isPending) return;
-    setIsOpen(isOpen);
+    onOpenChange(isOpen);
   };
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const [_, error] = await execute({ id: moduleId });
+    console.log("Delete document with id: ", id);
+
+    startTransaction(() => {
+      onDocumentDelete(id);
+      /* const [_, error] = await deleteDocumentAction({ id, ownerId, moduleId, moduleOwnerId });
 
     if (error) {
-      setIsOpen(false);
+      onOpenChange(false);
       toast({
         variant: "destructive",
         title: error.message
       });
-    }
+    } */
+    });
   };
 
   return (
-    <AlertDialog open={isOpen} onOpenChange={onOpenChange}>
-      <AlertDialogTrigger asChild>
-        <Button size="sm" variant="destructive" disabled={!canEditModule}>
-          <Trash2Icon className="size-4 shrink-0 md:mr-2" />
-          <span className="hidden md:inline">Deletar</span>
-        </Button>
-      </AlertDialogTrigger>
+    <AlertDialog open={isOpen} onOpenChange={handleOpenChange}>
       <AlertDialogContent>
         <form onSubmit={onSubmit}>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Tem certeza que deseja deletar este módulo?
+              Tem certeza que deseja deletar este documento?
             </AlertDialogTitle>
             <AlertDialogDescription>
-              Esta ação não poderá ser desfeita. Todos os documentos associados
-              a este módulo também serão deletados.
+              Esta ação não poderá ser desfeita. Caso você se arrenda será
+              necessário criar um novo documento.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="pt-6">
