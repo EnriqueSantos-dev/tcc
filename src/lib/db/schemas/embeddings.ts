@@ -12,7 +12,7 @@ import {
 import { documents } from "./documents";
 
 export const embeddings = pgTable(
-  "embedding",
+  "embeddings",
   {
     id: serial("id").primaryKey(),
     content: text("content"),
@@ -20,7 +20,9 @@ export const embeddings = pgTable(
     embedding: vector("embedding", { dimensions: 1536 }).notNull(),
     documentId: text("document_id")
       .notNull()
-      .references(() => documents.id)
+      .references(() => documents.id, {
+        onDelete: "cascade"
+      })
   },
   (table) => ({
     embeddingIndex: index("embeddingIndex").using(

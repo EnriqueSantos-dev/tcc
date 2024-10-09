@@ -120,7 +120,12 @@ export const deleteDocumentAction = procedure
         throw new Error("Você não tem permissão para deletar este documento");
       }
 
-      await db.delete(documents).where(eq(documents.id, input.id));
+      await db.transaction(async (tx) => {
+        await tx
+          .delete(embeddingsTable)
+          .where(eq(embeddingsTable.documentId, input.id));
+        await tx.delete(documents).where(eq(documents.id, input.id));
+      });
     } catch (error) {
       throw error;
     } finally {
@@ -162,17 +167,13 @@ export const createDocumentAction = procedure
       );
     }
 
-    // try upload file to supabase storage
     const fileExtension = getFileExtension(input.file);
     const originalFileName = path.basename(
       input.file.name.trim().toLowerCase(),
       fileExtension
     );
     const fileNameToSave =
-      `mo_${input.moduleId}-${nanoid()}-${originalFileName}${fileExtension}`.replaceAll(
-        /\s/g,
-        "-"
-      );
+      `${nanoid()}-${Date.now()}${fileExtension}`.replaceAll(/\s/g, "-");
 
     const bucket = env.SUPABASE_BUCKET;
 
@@ -188,7 +189,10 @@ export const createDocumentAction = procedure
       );
     }
 
-    const metadata = { fileUrl: uploadedFileUrl };
+    const metadata = {
+      fileUrl: uploadedFileUrl,
+      fileName: originalFileName.trim().replaceAll(/\s/g, "-")
+    };
     const docs = await generateDocuments(input.file, metadata);
 
     if (!docs) {

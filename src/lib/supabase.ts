@@ -28,8 +28,6 @@ export async function uploadToSupabase({
     .from(bucket)
     .upload(filename, file);
 
-  console.log(error);
-
   if (error) return null;
 
   const { data } = supabaseClient.storage.from(bucket).getPublicUrl(filename);

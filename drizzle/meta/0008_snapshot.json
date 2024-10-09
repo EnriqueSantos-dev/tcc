@@ -1,6 +1,6 @@
 {
-  "id": "10d5ed6b-8d46-4c7e-a5cf-13a6aaa402a3",
-  "prevId": "7a461e86-a5dc-481c-9aea-be23615fa55e",
+  "id": "8ab20be0-232c-48c5-893d-b5e33f6d7714",
+  "prevId": "10d5ed6b-8d46-4c7e-a5cf-13a6aaa402a3",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -92,8 +92,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "public.embedding": {
-      "name": "embedding",
+    "public.embeddings": {
+      "name": "embeddings",
       "schema": "",
       "columns": {
         "id": {
@@ -146,9 +146,9 @@
         }
       },
       "foreignKeys": {
-        "embedding_document_id_document_id_fk": {
-          "name": "embedding_document_id_document_id_fk",
-          "tableFrom": "embedding",
+        "embeddings_document_id_document_id_fk": {
+          "name": "embeddings_document_id_document_id_fk",
+          "tableFrom": "embeddings",
           "tableTo": "document",
           "columnsFrom": ["document_id"],
           "columnsTo": ["id"],
