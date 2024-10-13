@@ -57,9 +57,11 @@ function getDocumentUserPermissions(
 }
 
 export default async function ModulePageById({
-  params
+  params,
+  searchParams
 }: {
   params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const moduleId = params.id;
   const user = await getCurrentUser();
@@ -87,7 +89,7 @@ export default async function ModulePageById({
     })
   );
 
-  const pageParams = moduleByIdSearchParamsSchema.parse(params);
+  const pageParams = moduleByIdSearchParamsSchema.parse(searchParams);
 
   const { data, metadata } = await getPaginateDocumentsByModuleId({
     search: pageParams.search ?? null,

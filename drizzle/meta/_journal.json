@@ -64,6 +64,20 @@
       "when": 1727561921030,
       "tag": "0008_burly_korvac",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1728591801094,
+      "tag": "0009_furry_lord_tyger",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1728739690000,
+      "tag": "0010_friendly_susan_delgado",
+      "breakpoints": true
     }
   ]
 }

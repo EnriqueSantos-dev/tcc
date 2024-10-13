@@ -1,11 +1,22 @@
 import { navLinks } from "@/constants/nav-links";
+import { ROLES } from "@/lib/db/schemas";
+import { getCurrentUser } from "@/lib/session";
 import { PanelLeft } from "lucide-react";
 import Link from "next/link";
 import MainNav from "./main-nav";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import UserProfile from "./user-profile";
 
-export default function MobileMenu() {
+export default async function MobileMenu() {
+  const user = await getCurrentUser();
+
+  const links = navLinks.filter((link) => {
+    if (link.href.startsWith("/users") && user.role !== ROLES.ADMIN) {
+      return false;
+    }
+    return true;
+  });
+
   return (
     <div className="container flex items-center justify-between">
       <Sheet>
@@ -23,7 +34,7 @@ export default function MobileMenu() {
             >
               Chatboot SIGAA
             </Link>
-            <MainNav items={navLinks} className="flex-1 px-4" />
+            <MainNav items={links} className="flex-1 px-4" />
             <UserProfile />
           </aside>
         </SheetContent>

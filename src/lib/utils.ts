@@ -1,6 +1,8 @@
 import { type ClassValue, clsx } from "clsx";
+import { Session, User } from "lucia";
 import path from "path";
 import { twMerge } from "tailwind-merge";
+import { ROLES } from "./db/schemas";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -26,3 +28,5 @@ export const formatFileSize = (bytes: number) => {
 
   return `${formattedSize} ${units[unitIndex]}`;
 };
+
+export const isAdminUser = (user: User) => user.role === ROLES.ADMIN;

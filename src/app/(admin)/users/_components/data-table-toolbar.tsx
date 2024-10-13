@@ -6,14 +6,10 @@ import { useRouterStuff } from "@/hooks/use-router-stuff";
 import { Table } from "@tanstack/react-table";
 import { SearchIcon } from "lucide-react";
 import { useRef } from "react";
-import CreateDocumentDialog from "./create-document-dialog";
-import { DataTableMeta } from "./data-table";
 
 export default function DataTableToolbar<TData>({
-  table,
-  canCreateDocument
+  table
 }: {
-  canCreateDocument: boolean;
   table: Table<TData>;
 }) {
   const { queryParams, searchParams } = useRouterStuff();
@@ -42,12 +38,6 @@ export default function DataTableToolbar<TData>({
         <SearchIcon className="mr-2 size-4" />
         Pesquisar
       </Button>
-      <CreateDocumentDialog
-        canCreate={canCreateDocument}
-        onOptimisticCreate={() => {}}
-        moduleId={(table.options.meta as DataTableMeta)?.module.id}
-        moduleOwnerId={(table.options.meta as DataTableMeta)?.module.ownerId}
-      />
     </div>
   );
 }

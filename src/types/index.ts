@@ -37,7 +37,7 @@ export type ModuleWithUser = Module & {
 };
 
 export type NavItem = {
-  icon: React.ElementType;
+  icon: React.JSX.Element;
   label: string;
   href: string;
 };

@@ -32,7 +32,7 @@ export default function MainNav({ items, ...props }: MainNavProps) {
                 })
               )}
             >
-              <item.icon className="mb-0.5 size-4" />
+              {item.icon}
               {item.label}
             </Link>
           </li>
