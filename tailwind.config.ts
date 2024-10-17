@@ -18,6 +18,12 @@ const config = {
       }
     },
     extend: {
+      gridTemplateColumns: {
+        "desktop-layout": "var(--sidebar-width-desktop) 1fr"
+      },
+      width: {
+        "sidebar-mobile": "var(--sidebar-width-mobile)"
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -74,7 +80,11 @@ const config = {
       }
     }
   },
-  plugins: [require("tailwindcss-animate")]
+  plugins: [
+    require("tailwindcss-animate"),
+    require("tailwind-scrollbar")({ nocompatible: true }),
+    require("@tailwindcss/typography")
+  ]
 } satisfies Config;
 
 export default config;

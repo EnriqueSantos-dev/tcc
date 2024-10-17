@@ -29,6 +29,55 @@
       "when": 1722469512111,
       "tag": "0003_change_id_column_pk_in_sessions_table",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1725368163172,
+      "tag": "0004_fluffy_juggernaut",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1725368644855,
+      "tag": "0005_closed_senator_kelly",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1725565233753,
+      "tag": "0006_minor_hulk",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1727012669101,
+      "tag": "0007_late_robin_chapel",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1727561921030,
+      "tag": "0008_burly_korvac",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1728591801094,
+      "tag": "0009_furry_lord_tyger",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1728739690000,
+      "tag": "0010_friendly_susan_delgado",
+      "breakpoints": true
     }
   ]
 }

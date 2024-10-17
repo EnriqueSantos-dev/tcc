@@ -11,9 +11,10 @@ export const env = createEnv({
     NODE_ENV: z.enum(["development", "production", "test"]),
     DATABASE_URL: z.string().url(),
     HOST_NAME: z.string().url(),
-    OPEN_AI_API_KEY: z.string().min(1),
+    OPENAI_API_KEY: z.string().min(1),
     SUPABASE_API_URL: z.string().url(),
     SUPABASE_SECRET_KEY: z.string().min(1),
+    SUPABASE_BUCKET: z.string().min(1),
     GOOGLE_CLIENT_SECRET: z.string().min(1),
     GOOGLE_CLIENT_ID: z.string().min(1),
     GITHUB_CLIENT_ID: z.string().min(1),
@@ -33,9 +34,10 @@ export const env = createEnv({
    */
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
-    OPEN_AI_API_KEY: process.env.OPEN_AI_API_KEY,
+    OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     SUPABASE_API_URL: process.env.SUPABASE_API_URL,
     SUPABASE_SECRET_KEY: process.env.SUPABASE_SECRET_KEY,
+    SUPABASE_BUCKET: process.env.SUPABASE_BUCKET,
     HOST_NAME: process.env.HOST_NAME,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,

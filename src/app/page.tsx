@@ -1,21 +1,11 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import { getCurrentUser } from "@/lib/session";
-import { signOut } from "./_actions";
+import Chat from "@/components/chat";
+import Header from "@/components/header";
 
-export default async function Home() {
-  const user = await getCurrentUser();
-
+export default function Page() {
   return (
-    <main>
-      <Card>
-        <CardTitle>Welcome, {user.email}</CardTitle>
-        <CardContent>
-          <form action={signOut}>
-            <Button variant="ghost">Sair</Button>
-          </form>
-        </CardContent>
-      </Card>
+    <main className="relative grid h-full max-h-dvh grid-rows-[auto_1fr] overflow-hidden bg-neutral-900">
+      <Header />
+      <Chat />
     </main>
   );
 }
