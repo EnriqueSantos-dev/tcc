@@ -4,7 +4,7 @@ import { nanoid } from "nanoid";
 import { documents } from "./documents";
 import { users } from "./users";
 
-export const modules = pgTable("module", {
+export const modules = pgTable("modules", {
   id: varchar("id", { length: 191 })
     .primaryKey()
     .$defaultFn(() => nanoid()),

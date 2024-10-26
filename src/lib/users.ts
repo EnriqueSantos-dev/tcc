@@ -1,6 +1,13 @@
+import "server-only";
+
 import { PaginatedResource } from "@/types";
-import { count, desc, ilike } from "drizzle-orm";
-import { User, users } from "./db/schemas";
+import { count, desc, eq, ilike } from "drizzle-orm";
+import { Role, User, users } from "./db/schemas";
+import { auth } from "@clerk/nextjs/server";
+import { getUserPermissions } from "./permissions";
+import { AppAbility } from "./permissions/schemas";
+import { redirect } from "next/navigation";
+import { db } from "./db";
 
 type GetPaginatedUsersParams = {
   search: string | null;
@@ -49,4 +56,47 @@ export async function getPaginatedUsers({
       previousPage
     }
   };
+}
+
+export async function getUser(
+  input: { id: string } | { clerkUserId: string } | { email: string }
+): Promise<User | undefined> {
+  const condition =
+    "id" in input
+      ? eq(users.id, input.id)
+      : "clerkUserId" in input
+        ? eq(users.clerkUserId, input.clerkUserId)
+        : eq(users.email, input.email);
+
+  const result = await db.select().from(users).where(condition);
+  return result[0];
+}
+
+export async function getCurrentUser(): Promise<{
+  user: User;
+  userAbilities: AppAbility;
+}> {
+  const { userId } = auth();
+  if (!userId) redirect("/");
+
+  const user = await getUser({ clerkUserId: userId });
+
+  if (!user) redirect("/");
+
+  return {
+    user,
+    userAbilities: getUserPermissions(user)
+  };
+}
+
+export async function changeUserRole(
+  userId: string,
+  newRole: Role
+): Promise<void> {
+  await db
+    .update(users)
+    .set({
+      role: newRole
+    })
+    .where(eq(users.id, userId));
 }

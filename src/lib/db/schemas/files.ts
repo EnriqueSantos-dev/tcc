@@ -8,7 +8,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
 
-export const files = pgTable("file", {
+export const files = pgTable("files", {
   id: varchar("id", { length: 191 })
     .primaryKey()
     .$defaultFn(() => nanoid()),

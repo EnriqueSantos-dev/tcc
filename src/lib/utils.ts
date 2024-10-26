@@ -1,8 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
-import { Session, User } from "lucia";
 import path from "path";
 import { twMerge } from "tailwind-merge";
-import { ROLES } from "./db/schemas";
+import { ROLES, User } from "./db/schemas";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

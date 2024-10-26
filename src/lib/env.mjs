@@ -18,7 +18,8 @@ export const env = createEnv({
     GOOGLE_CLIENT_SECRET: z.string().min(1),
     GOOGLE_CLIENT_ID: z.string().min(1),
     GITHUB_CLIENT_ID: z.string().min(1),
-    GITHUB_CLIENT_SECRET: z.string().min(1)
+    GITHUB_CLIENT_SECRET: z.string().min(1),
+    WEBHOOK_SECRET: z.string().min(1)
   },
   /*
    * Environment variables available on the client (and server).
@@ -43,6 +44,7 @@ export const env = createEnv({
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
     GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
-    NODE_ENV: process.env.NODE_ENV
+    NODE_ENV: process.env.NODE_ENV,
+    WEBHOOK_SECRET: process.env.WEBHOOK_SECRET
   }
 });

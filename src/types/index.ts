@@ -1,4 +1,13 @@
-import { Document, File, Module, User } from "@/lib/db/schemas";
+import { Document, File, Module, Role, User } from "@/lib/db/schemas";
+
+// Create a type for the roles
+declare global {
+  interface CustomJwtSessionClaims {
+    metadata: {
+      role?: Role;
+    };
+  }
+}
 
 export interface GoogleUser {
   sub: string;

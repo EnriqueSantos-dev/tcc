@@ -1,6 +1,6 @@
 import { navLinks } from "@/constants/nav-links";
 import { ROLES } from "@/lib/db/schemas";
-import { getCurrentUser } from "@/lib/session";
+import { auth } from "@clerk/nextjs/server";
 import { PanelLeft } from "lucide-react";
 import Link from "next/link";
 import MainNav from "./main-nav";
@@ -8,14 +8,13 @@ import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import UserProfile from "./user-profile";
 
 export default async function MobileMenu() {
-  const user = await getCurrentUser();
+  const { sessionClaims } = auth();
 
-  const links = navLinks.filter((link) => {
-    if (link.href.startsWith("/users") && user.role !== ROLES.ADMIN) {
-      return false;
-    }
-    return true;
-  });
+  const links = navLinks.filter(
+    (link) =>
+      link.href.startsWith("/users") &&
+      sessionClaims?.metadata.role !== ROLES.ADMIN
+  );
 
   return (
     <div className="container flex items-center justify-between">
