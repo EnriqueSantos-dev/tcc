@@ -97,7 +97,7 @@ export default function EditModuleDialogForm({
         disabled={!canEditModule}
         className={buttonVariants({ size: "sm" })}
       >
-        <PencilIcon className="size-4 shrink-0 md:mr-2" />
+        <PencilIcon className="size-4 shrink-0 md:mr-1" />
         <span className="hidden md:inline">Editar</span>
       </DialogTrigger>
       <DialogContent>

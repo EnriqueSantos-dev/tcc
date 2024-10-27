@@ -8,6 +8,7 @@ import { DataTable } from "./_components/data-table";
 import { DataTablePagination } from "./_components/data-table-pagination";
 import DataTableToolbar from "./_components/data-table-toolbar";
 import { getCurrentUser } from "@/lib/users";
+import { Metadata } from "next";
 
 const modulesSearchParamsSchema = z.object({
   search: z.string().optional(),
@@ -21,6 +22,10 @@ const modulesSearchParamsSchema = z.object({
     })
     .catch(defaultPaginationConfig.allowedLimits[0].toString())
 });
+
+export const metadata: Metadata = {
+  title: "Módulos"
+};
 
 export default async function ModulesPage({
   searchParams

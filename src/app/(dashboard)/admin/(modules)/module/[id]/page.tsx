@@ -64,7 +64,7 @@ export default async function ModulePageById({
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const moduleId = params.id;
-  const { user, userAbilities } = await getCurrentUser();
+  const { userAbilities } = await getCurrentUser();
   const moduleFromDb = await getModuleById(moduleId);
 
   if (!moduleFromDb) notFound();
@@ -147,16 +147,16 @@ export default async function ModulePageById({
         <div className="mt-6 flex w-fit flex-col gap-2">
           <div className="space-y-2">
             <div className="flex items-center text-sm text-muted-foreground">
-              <CalendarIcon className="mr-2 h-4 w-4" />
+              <CalendarIcon className="mr-2 size-4" />
               <span>Criado em: 01/09/2024, 10:41:19</span>
             </div>
             <div className="flex items-center text-sm text-muted-foreground">
-              <CalendarIcon className="mr-2 h-4 w-4" />
+              <CalendarIcon className="mr-2 size-4" />
               <span>Atualizado em: 01/09/2024, 10:41:19</span>
             </div>
             {moduleFromDb.user && (
               <div className="flex flex-wrap items-center text-sm text-muted-foreground">
-                <UserIcon className="mr-2 h-4 w-4 shrink-0" />
+                <UserIcon className="mr-2 size-4 shrink-0" />
                 <span>
                   Criado por: <b>{moduleFromDb.user.email}</b>
                 </span>

@@ -34,7 +34,7 @@ export default function DataTableToolbar({
         className="max-w-md"
       />
       <Button size="sm" variant="secondary" className="h-9" onClick={onSearch}>
-        <SearchIcon className="mr-2 size-4" />
+        <SearchIcon className="mr-1 size-4" />
         Pesquisar
       </Button>
       <CreateModuleForm enabledToCreate={canCreateModules} />

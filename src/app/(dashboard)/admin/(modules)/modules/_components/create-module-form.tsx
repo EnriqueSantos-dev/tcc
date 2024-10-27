@@ -66,7 +66,7 @@ export default function CreateModuleForm({
     >
       <DialogTrigger asChild>
         <Button size="sm" className="h-9">
-          <CirclePlusIcon className="mr-2 size-4" /> Criar módulo
+          <CirclePlusIcon className="mr-1 size-4" /> Criar módulo
         </Button>
       </DialogTrigger>
       <DialogContent>

@@ -14,7 +14,7 @@ export default function ModulePageSkeleton() {
         <CardHeader className="border-b p-0 pb-4">
           <div className="flex items-center justify-between">
             <CardTitle className="inline-flex text-balance">
-              <BookOpenIcon className="mr-2 size-4" />
+              <BookOpenIcon className="mr-1 size-4" />
               <Skeleton className="h-6 w-40" />
             </CardTitle>
             <div className="flex items-center gap-2">

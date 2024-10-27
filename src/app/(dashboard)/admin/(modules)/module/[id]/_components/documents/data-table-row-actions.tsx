@@ -14,6 +14,7 @@ import { z } from "zod";
 import { Action, ACTION_TYPE } from "./data-table";
 import DeleteDocumentDialog from "./delete-document-dialog";
 import EditDocumentDialog from "./edit-document-dialog";
+import { Download, PencilIcon, Trash2Icon } from "lucide-react";
 
 const rowSchema = z.object({
   id: z.string().min(1),
@@ -85,9 +86,11 @@ export function DataTableRowActions({
           <DropdownMenuLabel>Ações</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem onSelect={() => setIsOpenEditDialog(true)}>
+            <PencilIcon />
             Editar
           </DropdownMenuItem>
           <DropdownMenuItem onSelect={() => setIsOpenDeleteDialog(true)}>
+            <Trash2Icon />
             Deletar
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
@@ -96,6 +99,7 @@ export function DataTableRowActions({
               href={parsedRow.fileUrl}
               download={parsedRow.fileName}
             >
+              <Download />
               Baixar arquivo
             </Link>
           </DropdownMenuItem>

@@ -50,7 +50,7 @@ export default function DeleteModuleDialog({
     <AlertDialog open={isOpen} onOpenChange={onOpenChange}>
       <AlertDialogTrigger asChild>
         <Button size="sm" variant="destructive" disabled={!canEditModule}>
-          <Trash2Icon className="size-4 shrink-0 md:mr-2" />
+          <Trash2Icon className="size-4 shrink-0 md:mr-1" />
           <span className="hidden md:inline">Deletar</span>
         </Button>
       </AlertDialogTrigger>
