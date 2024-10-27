@@ -70,3 +70,8 @@ export type DocumentWithFile = Document & {
 };
 
 export type OptimisticEntity<T> = { isPending?: boolean } & T;
+
+export type SimpleUser = Pick<
+  User,
+  "email" | "role" | "firstName" | "lastName"
+>;

@@ -5,12 +5,14 @@ import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import Image from "next/image";
 import ChangeUserRoleDropdown from "./change-user-role-dropdown";
 import { DataTableMeta } from "./data-table";
+import { OptimisticEntity } from "@/types";
+import DataTableActions from "./data-table-actions";
 
-type UserDataTableColumnDto = Omit<User, "hash">;
+export type OptimisticUserEntity = OptimisticEntity<User>;
 
-const columnHelper = createColumnHelper<UserDataTableColumnDto>();
+const columnHelper = createColumnHelper<OptimisticUserEntity>();
 
-export const columns: ColumnDef<UserDataTableColumnDto, any>[] = [
+export const columns: ColumnDef<OptimisticUserEntity, any>[] = [
   columnHelper.accessor("email", {
     header: "Email",
     cell: ({ row }) => {
@@ -41,7 +43,7 @@ export const columns: ColumnDef<UserDataTableColumnDto, any>[] = [
     }
   }),
   columnHelper.accessor("role", {
-    header: "Role",
+    header: "Função (Role)",
     cell: ({ table, row }) => {
       const { role, id } = row.original;
       const tableMeta = table.options.meta as DataTableMeta;
@@ -50,10 +52,19 @@ export const columns: ColumnDef<UserDataTableColumnDto, any>[] = [
         <ChangeUserRoleDropdown
           userId={id}
           userRole={role}
+          disabled={row.original.isPending}
           roles={[ROLES.BASIC, ROLES.MANAGE]} // the app should have one user admin, so remove the admin role from the list
           onChangeRole={tableMeta.updateUserRole}
         />
       );
+    }
+  }),
+  columnHelper.display({
+    id: "actions",
+    cell: ({ row, table }) => {
+      const tableMeta = table.options.meta as DataTableMeta;
+
+      return <DataTableActions tableMeta={tableMeta} row={row.original} />;
     }
   })
 ];

@@ -9,3 +9,15 @@ export const ROLES = {
   MANAGE: "MANAGE",
   BASIC: "BASIC"
 } satisfies Record<Role, Role>;
+
+export const ROLES_INFO: Record<
+  Exclude<keyof typeof ROLES, "ADMIN">,
+  { abilities: string[] }
+> = {
+  BASIC: {
+    abilities: ["Não possui permissões especiais."]
+  },
+  MANAGE: {
+    abilities: ["Gerencia documentos e módulos criados por ELE (a)."]
+  }
+};

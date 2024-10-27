@@ -3,10 +3,12 @@ import { MongoAbility, CreateAbility, createMongoAbility } from "@casl/ability";
 
 import { moduleSubject } from "./module";
 import { documentSubject } from "./document";
+import { userSubject } from "./user";
 
 export const appAbilitiesSchema = z.union([
   moduleSubject,
   documentSubject,
+  userSubject,
   z.tuple([z.literal("manage"), z.literal("all")])
 ]);
 

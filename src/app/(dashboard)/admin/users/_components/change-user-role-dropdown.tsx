@@ -15,6 +15,7 @@ type ChangeUserRoleDropdownProps = {
   userId: string;
   userRole: Role;
   roles: Role[];
+  disabled?: boolean;
   onChangeRole: (userId: string, role: Role) => void;
 };
 
@@ -22,6 +23,7 @@ export default function ChangeUserRoleDropdown({
   userId,
   userRole,
   roles,
+  disabled,
   onChangeRole
 }: ChangeUserRoleDropdownProps) {
   const [isPending, startTransaction] = useTransition();
@@ -30,28 +32,32 @@ export default function ChangeUserRoleDropdown({
   const handleChangeRole = (role: Role) => {
     startTransaction(async () => {
       onChangeRole(userId, role);
-      const [_, error] = await changeUserRoleAction({ userId, role });
+      // const [_, error] = await changeUserRoleAction({ userId, role });
 
-      if (error) {
-        toast({
-          title:
-            error.code !== "INPUT_PARSE_ERROR"
-              ? error?.message
-              : "Erro ao alterar o papel do usuário",
-          variant: "destructive"
-        });
-        return;
-      }
+      // if (error) {
+      //   toast({
+      //     title:
+      //       error.code !== "INPUT_PARSE_ERROR"
+      //         ? error?.message
+      //         : "Erro ao alterar o papel do usuário",
+      //     variant: "destructive"
+      //   });
+      //   return;
+      // }
 
-      toast({
-        title: "Papel do usuário alterado com sucesso",
-        variant: "success"
-      });
+      // toast({
+      //   title: "Papel do usuário alterado com sucesso",
+      //   variant: "success"
+      // });
     });
   };
 
   return (
-    <Select value={userRole} onValueChange={handleChangeRole}>
+    <Select
+      value={userRole}
+      onValueChange={handleChangeRole}
+      disabled={disabled}
+    >
       <div className="flex items-center gap-2">
         <SelectTrigger
           className="h-8 w-fit rounded-full text-sm font-medium"

@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable
@@ -15,16 +14,44 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table";
-import DataTableToolbar from "./data-table-toolbar";
 import { Role, User } from "@/lib/db/schemas";
-import { OptimisticEntity } from "@/types";
-import { useCallback, useOptimistic } from "react";
-import { columns } from "./columns";
+import { SimpleUser } from "@/types";
+import { useCallback, useOptimistic, useReducer } from "react";
+import { columns, OptimisticUserEntity } from "./columns";
+import DataTableToolbar from "./data-table-toolbar";
 
-type Action = { type: "update-role"; payload: { userId: string; role: Role } };
+type Action =
+  | { type: "update-role"; payload: { userId: string; role: Role } }
+  | {
+      type: "add";
+      payload: SimpleUser;
+    }
+  | {
+      type: "delete";
+      payload: { userId: string };
+    };
 
-const reducer = (state: OptimisticEntity<User>[], action: Action) => {
+const reducer = (
+  state: OptimisticUserEntity[],
+  action: Action
+): OptimisticUserEntity[] => {
   switch (action.type) {
+    case "add":
+      return [
+        {
+          id: "",
+          clerkUserId: "",
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          deletedAt: null,
+          image: null,
+          isPending: true,
+          ...action.payload
+        },
+        ...state
+      ];
+    case "delete":
+      return state.filter((user) => user.id !== action.payload.userId);
     case "update-role":
       return state.map((user) => {
         if (user.id === action.payload.userId) {
@@ -38,7 +65,9 @@ const reducer = (state: OptimisticEntity<User>[], action: Action) => {
 };
 
 export type DataTableMeta = {
+  createUser: (user: SimpleUser) => void;
   updateUserRole: (userId: string, role: Role) => void;
+  deleteUser: (userId: string) => void;
   module: {
     id: string;
     ownerId: string;
@@ -48,14 +77,29 @@ export type DataTableMeta = {
 interface DataTableProps {
   data: User[];
   pageCount: number;
+  canCreateUser: boolean;
 }
 
-export function DataTable({ data, pageCount }: DataTableProps) {
-  const [users, dispatch] = useOptimistic(data, reducer);
+export function DataTable({ data, pageCount, canCreateUser }: DataTableProps) {
+  const [users, dispatch] = useReducer(reducer, undefined, () => data);
 
   const updateUserRole = useCallback(
     (userId: string, role: Role) => {
       dispatch({ type: "update-role", payload: { userId, role } });
+    },
+    [dispatch]
+  );
+
+  const createUser = useCallback(
+    (user: SimpleUser) => {
+      dispatch({ type: "add", payload: user });
+    },
+    [dispatch]
+  );
+
+  const deleteUser = useCallback(
+    (userId: string) => {
+      dispatch({ type: "delete", payload: { userId } });
     },
     [dispatch]
   );
@@ -67,13 +111,15 @@ export function DataTable({ data, pageCount }: DataTableProps) {
     manualPagination: true,
     pageCount,
     meta: {
-      updateUserRole
+      updateUserRole,
+      createUser,
+      deleteUser
     }
   });
 
   return (
     <div className="grid flex-1 grid-rows-[auto_1fr] gap-4 pb-6">
-      <DataTableToolbar table={table} />
+      <DataTableToolbar table={table} canCreateUser={canCreateUser} />
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

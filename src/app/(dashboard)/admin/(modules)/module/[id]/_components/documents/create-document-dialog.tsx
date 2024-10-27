@@ -30,7 +30,7 @@ import { useServerAction } from "zsa-react";
 import { createDocumentAction } from "../../actions";
 import { createDocumentSchema } from "../../validations";
 import FileUpload from "./file-upload";
-import { Loader2 } from "lucide-react";
+import { Loader2, PlusCircleIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 
 type CreateDocumentDialogProps = {
@@ -93,7 +93,10 @@ export default function CreateDocumentDialog({
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild disabled={!canCreate}>
-        <Button>Criar documento</Button>
+        <Button>
+          <PlusCircleIcon className="mr-1 size-4" />
+          Criar documento
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

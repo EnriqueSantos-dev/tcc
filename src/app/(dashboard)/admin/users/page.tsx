@@ -5,7 +5,6 @@ import { isAdminUser } from "@/lib/utils";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { z } from "zod";
-import { columns } from "./_components/columns";
 import { DataTable } from "./_components/data-table";
 
 export const metadata: Metadata = {
@@ -55,7 +54,11 @@ export default async function UsersPage({
         </h3>
       </div>
       <div className="grid grid-rows-[1fr_auto]">
-        <DataTable data={mappedUsers} pageCount={metadata.pagesCount} />
+        <DataTable
+          canCreateUser // only admin can access this, so we can safely set this to true
+          data={mappedUsers}
+          pageCount={metadata.pagesCount}
+        />
         <div className="justify-self-end">
           <DataTablePagination
             paginationInfo={{

@@ -9,9 +9,14 @@ export default async function Header() {
   return (
     <header className="flex h-16 justify-end px-6 py-4">
       {!session ? (
-        <Button asChild size="sm">
-          <Link href="/sign-in">Entrar</Link>
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button asChild size="sm">
+            <Link href="/sign-in">Entrar</Link>
+          </Button>
+          <Button variant="secondary" asChild size="sm">
+            <Link href="/sign-up">Cadastrar</Link>
+          </Button>
+        </div>
       ) : (
         <UserButton
           showName

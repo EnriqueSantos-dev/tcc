@@ -2,7 +2,8 @@ import { db } from "@/lib/db";
 import { ROLES, users } from "@/lib/db/schemas";
 import { env } from "@/lib/env.mjs";
 import { clerkClient, WebhookEvent } from "@clerk/nextjs/server";
-import { eq, sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { Webhook } from "svix";
 
@@ -60,6 +61,8 @@ export async function POST(req: Request) {
           }
         });
 
+        revalidatePath("/admin/users");
+
         break;
 
       case "user.updated": {
@@ -78,6 +81,8 @@ export async function POST(req: Request) {
           })
           .where(eq(users.clerkUserId, user.id));
 
+        revalidatePath("/admin/users");
+
         break;
       }
 
@@ -94,6 +99,9 @@ export async function POST(req: Request) {
             deletedAt: new Date().toISOString()
           })
           .where(eq(users.clerkUserId, user.id));
+
+        revalidatePath("/admin/users");
+
         break;
       }
 
@@ -105,7 +113,7 @@ export async function POST(req: Request) {
     return Response.json({ received: true });
   } catch (err) {
     console.error("Error verifying webhook:", err);
-    return new Response("Error occured", {
+    return new Response("Error occurred", {
       status: 400
     });
   }
