@@ -1,7 +1,8 @@
 import React from "react";
 
-import MobileMenu from "@/components/mobile-menu";
 import Sidebar from "@/components/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import SidebarTrigger from "@/components/sidebar-trigger";
 
 export default function AdminLayout({
   children
@@ -9,16 +10,14 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid h-full max-h-dvh grid-rows-[auto_1fr] overflow-hidden md:grid-cols-desktop-layout md:grid-rows-none md:bg-muted md:dark:bg-background">
-      <header className="h-14 border-b border-border py-4 md:hidden">
-        <MobileMenu />
-      </header>
+    <SidebarProvider>
       <Sidebar />
-      <main className="overflow-auto md:p-3">
-        <div className="h-full overflow-auto bg-background scrollbar-thin scrollbar-track-muted scrollbar-thumb-muted-foreground scrollbar-track-rounded-full scrollbar-thumb-rounded-full dark:scrollbar-track-zinc-900 dark:scrollbar-thumb-zinc-700 md:rounded-sm md:border md:border-border md:dark:bg-zinc-900">
-          {children}
+      <main className="grid flex-1 grid-rows-[auto_1fr] overflow-auto">
+        <div className="flex h-14 items-center border border-border px-4">
+          <SidebarTrigger />
         </div>
+        {children}
       </main>
-    </div>
+    </SidebarProvider>
   );
 }
