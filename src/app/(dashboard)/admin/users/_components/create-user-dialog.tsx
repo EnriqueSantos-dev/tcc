@@ -41,8 +41,7 @@ import { createUserAction } from "../_actions";
 import { createUserSchema } from "../validations";
 
 export default function CreateUserDialog({
-  canCreate,
-  onCreateUser
+  canCreate
 }: {
   canCreate: boolean;
   onCreateUser: (
@@ -73,7 +72,6 @@ export default function CreateUserDialog({
 
   const handleSubmit = form.handleSubmit((data) => {
     startTransaction(async () => {
-      onCreateUser(data);
       const [_, err] = await createUserAction(data);
 
       if (err) {
@@ -177,7 +175,7 @@ export default function CreateUserDialog({
                           variant="secondary"
                           className="flex items-center gap-2"
                         >
-                          <InfoIcon className="size-4" />
+                          <InfoIcon className="mb-px size-4" />
                           Entenda as funções
                         </Badge>
                       </TooltipTrigger>

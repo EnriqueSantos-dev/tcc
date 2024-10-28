@@ -7,6 +7,7 @@ import ChangeUserRoleDropdown from "./change-user-role-dropdown";
 import { DataTableMeta } from "./data-table";
 import { OptimisticEntity } from "@/types";
 import DataTableActions from "./data-table-actions";
+import { getUserInitialsLetters } from "@/lib/utils";
 
 export type OptimisticUserEntity = OptimisticEntity<User>;
 
@@ -18,14 +19,18 @@ export const columns: ColumnDef<OptimisticUserEntity, any>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center gap-2">
-          {row.original.image && (
+          {row.original.image ? (
             <Image
               src={row.original.image}
               alt={`Image de perfil do usuário ${row.original.email}`}
-              width={38}
-              height={38}
+              width={40}
+              height={40}
               className="rounded-full object-cover"
             />
+          ) : (
+            <div className="size-10 rounded-full bg-gradient-to-tr from-violet-500 to-blue-700">
+              {getUserInitialsLetters(row.original)}
+            </div>
           )}
           <p className="text-sm">{row.getValue("email")}</p>
         </div>

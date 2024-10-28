@@ -32,23 +32,23 @@ export default function ChangeUserRoleDropdown({
   const handleChangeRole = (role: Role) => {
     startTransaction(async () => {
       onChangeRole(userId, role);
-      // const [_, error] = await changeUserRoleAction({ userId, role });
+      const [_, error] = await changeUserRoleAction({ userId, role });
 
-      // if (error) {
-      //   toast({
-      //     title:
-      //       error.code !== "INPUT_PARSE_ERROR"
-      //         ? error?.message
-      //         : "Erro ao alterar o papel do usuário",
-      //     variant: "destructive"
-      //   });
-      //   return;
-      // }
+      if (error) {
+        toast({
+          title:
+            error.code !== "INPUT_PARSE_ERROR"
+              ? error?.message
+              : "Erro ao alterar o papel do usuário",
+          variant: "destructive"
+        });
+        return;
+      }
 
-      // toast({
-      //   title: "Papel do usuário alterado com sucesso",
-      //   variant: "success"
-      // });
+      toast({
+        title: "Papel do usuário alterado com sucesso",
+        variant: "success"
+      });
     });
   };
 

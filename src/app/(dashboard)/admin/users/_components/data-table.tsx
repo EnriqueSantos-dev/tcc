@@ -81,7 +81,7 @@ interface DataTableProps {
 }
 
 export function DataTable({ data, pageCount, canCreateUser }: DataTableProps) {
-  const [users, dispatch] = useReducer(reducer, undefined, () => data);
+  const [users, dispatch] = useOptimistic(data, reducer);
 
   const updateUserRole = useCallback(
     (userId: string, role: Role) => {

@@ -37,7 +37,7 @@ export default function DataTableToolbar<TData>({
       <Input
         defaultValue={searchParams.get("search") ?? ""}
         ref={inputRef}
-        placeholder="Pesquise pelo nome do documento..."
+        placeholder="Pesquise pelo email ou nome do usuário..."
         className="max-w-md"
       />
       <Button size="sm" variant="secondary" className="h-9" onClick={onSearch}>
