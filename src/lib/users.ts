@@ -1,7 +1,7 @@
 import "server-only";
 
 import { PaginatedResource } from "@/types";
-import { and, count, desc, eq, ilike, is, isNull } from "drizzle-orm";
+import { and, count, desc, eq, ilike, is, isNull, or } from "drizzle-orm";
 import { Role, User, users } from "./db/schemas";
 import { auth } from "@clerk/nextjs/server";
 import { getUserPermissions } from "./permissions";
@@ -24,8 +24,6 @@ export async function getPaginatedUsers({
 }: GetPaginatedUsersParams): Promise<GetPaginatedUsersResponse> {
   const offset = (page - 1) * limit;
 
-  console.log("fetching users");
-
   const [usersData, usersCount] = await Promise.all([
     db
       .select()
@@ -33,7 +31,13 @@ export async function getPaginatedUsers({
       .where(
         and(
           isNull(users.deletedAt),
-          search ? ilike(users.email, `%${search}%`) : undefined
+          search
+            ? or(
+                ilike(users.email, `%${search}%`),
+                ilike(users.firstName, `%${search}%`),
+                ilike(users.lastName, `%${search}%`)
+              )
+            : undefined
         )
       )
       .limit(limit)
