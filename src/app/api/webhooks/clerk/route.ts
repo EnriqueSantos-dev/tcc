@@ -81,8 +81,6 @@ export async function POST(req: Request) {
           })
           .where(eq(users.clerkUserId, user.id));
 
-        revalidatePath("/admin/users");
-
         break;
       }
 
@@ -99,8 +97,6 @@ export async function POST(req: Request) {
             deletedAt: new Date().toISOString()
           })
           .where(eq(users.clerkUserId, user.id));
-
-        revalidatePath("/admin/users");
 
         break;
       }
