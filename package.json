@@ -75,6 +75,7 @@
     "zsa-react": "^0.2.2"
   },
   "devDependencies": {
+    "@clerk/types": "^4.28.0",
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
     "@tailwindcss/typography": "^0.5.13",
