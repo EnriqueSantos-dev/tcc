@@ -17,7 +17,7 @@ import UserProfile from "./user-profile";
 import SidebarMenuItems from "./sidebar-menu-items";
 
 export default async function Sidebar() {
-  const { sessionClaims } = auth();
+  const { sessionClaims } = await auth();
   const userRole = sessionClaims?.metadata.role;
 
   return (

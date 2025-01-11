@@ -88,7 +88,7 @@ export async function getCurrentUser(): Promise<{
   user: User;
   userAbilities: AppAbility;
 }> {
-  const { userId } = auth();
+  const { userId } = await auth();
   if (!userId) redirect("/");
 
   const user = await getUser({ clerkUserId: userId });

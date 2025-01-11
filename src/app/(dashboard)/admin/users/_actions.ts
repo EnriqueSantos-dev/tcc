@@ -48,7 +48,7 @@ export const changeUserRoleAction = authenticatedProcedure
       }
 
       // update the user clerk metadata
-      await clerkClient().users.updateUserMetadata(user.clerkUserId, {
+      (await clerkClient()).users.updateUserMetadata(user.clerkUserId, {
         publicMetadata: {
           role: input.role
         }
@@ -79,7 +79,7 @@ export const createUserAction = authenticatedProcedure
         throw "Você não tem permissão para criar usuários";
       }
 
-      await clerkClient().users.createUser({
+      (await clerkClient()).users.createUser({
         emailAddress: [input.email],
         firstName: input.firstName,
         lastName: input.lastName,
@@ -127,7 +127,7 @@ export const softDeleteUserAction = authenticatedProcedure
         throw "Usuário não encontrado";
       }
 
-      await clerkClient().users.deleteUser(user.clerkUserId);
+      (await clerkClient()).users.deleteUser(user.clerkUserId);
     } catch (error) {
       console.log("SERVER_ACTION_[softDeleteUser]_ERROR", error);
       revalidatePath("/admin/users");

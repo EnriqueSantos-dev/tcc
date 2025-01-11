@@ -24,7 +24,7 @@
     "@auth/drizzle-adapter": "^1.4.1",
     "@casl/ability": "^6.7.1",
     "@clerk/localizations": "^3.3.0",
-    "@clerk/nextjs": "^5.7.5",
+    "@clerk/nextjs": "^6.9.9",
     "@hookform/resolvers": "^3.9.0",
     "@langchain/community": "^0.3.1",
     "@langchain/core": "^0.3.3",

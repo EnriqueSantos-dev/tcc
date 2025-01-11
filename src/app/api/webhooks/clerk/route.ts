@@ -55,7 +55,7 @@ export async function POST(req: Request) {
         });
 
         // add user role to clerk metadata to be used easily in frontend with hook, and avoid querying the database
-        await clerkClient().users.updateUserMetadata(user.id, {
+        (await clerkClient()).users.updateUserMetadata(user.id, {
           publicMetadata: {
             role: ROLES.BASIC
           }

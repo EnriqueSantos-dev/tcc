@@ -8,7 +8,7 @@ import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import UserProfile from "./user-profile";
 
 export default async function MobileMenu() {
-  const { sessionClaims } = auth();
+  const { sessionClaims } = await auth();
 
   const links = navLinks.filter(
     (link) =>

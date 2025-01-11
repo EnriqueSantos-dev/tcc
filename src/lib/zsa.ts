@@ -12,7 +12,7 @@ class InvalidSessionError extends Error {
 export const authenticatedProcedure = createServerActionProcedure().handler(
   async () => {
     try {
-      const { userId } = auth();
+      const { userId } = await auth();
 
       if (!userId) {
         throw new InvalidSessionError();
