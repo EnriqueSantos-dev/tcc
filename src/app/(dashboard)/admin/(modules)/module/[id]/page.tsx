@@ -56,13 +56,12 @@ function getDocumentUserPermissions(
   };
 }
 
-export default async function ModulePageById({
-  params,
-  searchParams
-}: {
-  params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+export default async function ModulePageById(props: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const moduleId = params.id;
   const { userAbilities } = await getCurrentUser();
   const moduleFromDb = await getModuleById(moduleId);

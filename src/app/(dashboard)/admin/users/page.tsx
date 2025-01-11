@@ -24,11 +24,10 @@ const usersSearchParamsSchema = z.object({
     .catch(defaultPaginationConfig.allowedLimits[0].toString())
 });
 
-export default async function UsersPage({
-  searchParams
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
+export default async function UsersPage(props: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  const searchParams = await props.searchParams;
   const { user } = await getCurrentUser();
 
   if (!isAdminUser(user)) {

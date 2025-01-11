@@ -27,11 +27,10 @@ export const metadata: Metadata = {
   title: "Módulos"
 };
 
-export default async function ModulesPage({
-  searchParams
-}: {
-  searchParams: Record<string, string | string[]>;
+export default async function ModulesPage(props: {
+  searchParams: Promise<Record<string, string | string[]>>;
 }) {
+  const searchParams = await props.searchParams;
   const pageParams = modulesSearchParamsSchema.parse(searchParams);
   const { user, userAbilities } = await getCurrentUser();
 

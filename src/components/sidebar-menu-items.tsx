@@ -1,10 +1,10 @@
 "use client";
-
 import { Role, ROLES } from "@/lib/db/schemas";
 import { Component, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SidebarMenuButton, SidebarMenuItem } from "./ui/sidebar";
+import type { JSX } from "react";
 
 const routes = [
   {
