@@ -1,8 +1,8 @@
 import { type ClassValue, clsx } from "clsx";
-import { Session, User } from "lucia";
 import path from "path";
 import { twMerge } from "tailwind-merge";
-import { ROLES } from "./db/schemas";
+import { ROLES, User } from "./db/schemas";
+import { ClerkAPIError } from "@clerk/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -30,3 +30,10 @@ export const formatFileSize = (bytes: number) => {
 };
 
 export const isAdminUser = (user: User) => user.role === ROLES.ADMIN;
+
+export const getUserInitialsLetters = (user: User) => {
+  return `${user.firstName?.at(0)}${user.lastName?.at(0)}`.toUpperCase();
+};
+
+export const isClerkApiError = (err: any): err is { errors: ClerkAPIError[] } =>
+  "clerkError" in err;

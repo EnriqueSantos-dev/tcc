@@ -1,6 +1,6 @@
 import { DocumentWithFile, PaginatedResource } from "@/types";
 import { and, count, desc, eq, ilike } from "drizzle-orm";
-import { documents, files } from "./db/schemas";
+import { documents } from "./db/schemas";
 
 type GetPaginatedDocumentsParams = {
   moduleId: string;
@@ -21,16 +21,18 @@ export async function getPaginateDocumentsByModuleId({
   const offset = (page - 1) * limit;
 
   const [documentsFromDb, modulesCount] = await Promise.all([
-    db
-      .select()
-      .from(documents)
-      .innerJoin(files, eq(documents.fileId, files.id))
-      .where(
-        and(
-          eq(documents.moduleId, moduleId),
-          search ? ilike(documents.name, `%${search}%`) : undefined
-        )
+    db.query.documents.findMany({
+      with: {
+        file: true
+      },
+      where: and(
+        eq(documents.moduleId, moduleId),
+        search ? ilike(documents.name, `%${search}%`) : undefined
       ),
+      offset: offset,
+      limit: limit,
+      orderBy: desc(documents.createdAt)
+    }),
     db
       .select({
         value: count()
@@ -44,9 +46,9 @@ export async function getPaginateDocumentsByModuleId({
   const nextPage = hasNextPage ? page + 1 : null;
   const previousPage = hasPreviousPage ? page - 1 : null;
 
-  const mappedDocuments = documentsFromDb.map(({ document, file }) => ({
-    ...document,
-    file
+  const mappedDocuments = documentsFromDb.map(({ file, ...rest }) => ({
+    ...rest,
+    file: file!
   }));
 
   return {

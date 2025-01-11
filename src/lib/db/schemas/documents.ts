@@ -14,7 +14,7 @@ import { modules } from "./modules";
 import { users } from "./users";
 import { embeddings } from "./embeddings";
 
-export const documents = pgTable("document", {
+export const documents = pgTable("documents", {
   id: varchar("id", { length: 191 })
     .primaryKey()
     .$defaultFn(() => nanoid()),
