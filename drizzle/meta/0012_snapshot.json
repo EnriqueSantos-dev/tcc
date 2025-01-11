@@ -1,11 +1,11 @@
 {
-  "id": "937e87ec-a5cf-4a55-8b8c-3b170aa95e5b",
-  "prevId": "8ab20be0-232c-48c5-893d-b5e33f6d7714",
+  "id": "ea3ecc94-1b19-4e7f-9da7-23ba8829a5bd",
+  "prevId": "485e65bb-89d6-481b-b170-6ef8b80fe470",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.document": {
-      "name": "document",
+    "public.documents": {
+      "name": "documents",
       "schema": "",
       "columns": {
         "id": {
@@ -61,28 +61,28 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "document_owner_id_user_id_fk": {
-          "name": "document_owner_id_user_id_fk",
-          "tableFrom": "document",
-          "tableTo": "user",
+        "documents_owner_id_users_id_fk": {
+          "name": "documents_owner_id_users_id_fk",
+          "tableFrom": "documents",
+          "tableTo": "users",
           "columnsFrom": ["owner_id"],
           "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "document_module_id_module_id_fk": {
-          "name": "document_module_id_module_id_fk",
-          "tableFrom": "document",
-          "tableTo": "module",
+        "documents_module_id_modules_id_fk": {
+          "name": "documents_module_id_modules_id_fk",
+          "tableFrom": "documents",
+          "tableTo": "modules",
           "columnsFrom": ["module_id"],
           "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "document_file_id_file_id_fk": {
-          "name": "document_file_id_file_id_fk",
-          "tableFrom": "document",
-          "tableTo": "file",
+        "documents_file_id_files_id_fk": {
+          "name": "documents_file_id_files_id_fk",
+          "tableFrom": "documents",
+          "tableTo": "files",
           "columnsFrom": ["file_id"],
           "columnsTo": ["id"],
           "onDelete": "no action",
@@ -146,10 +146,10 @@
         }
       },
       "foreignKeys": {
-        "embeddings_document_id_document_id_fk": {
-          "name": "embeddings_document_id_document_id_fk",
+        "embeddings_document_id_documents_id_fk": {
+          "name": "embeddings_document_id_documents_id_fk",
           "tableFrom": "embeddings",
-          "tableTo": "document",
+          "tableTo": "documents",
           "columnsFrom": ["document_id"],
           "columnsTo": ["id"],
           "onDelete": "cascade",
@@ -159,8 +159,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "public.file": {
-      "name": "file",
+    "public.files": {
+      "name": "files",
       "schema": "",
       "columns": {
         "id": {
@@ -213,46 +213,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "public.session": {
-      "name": "session",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "expires_at": {
-          "name": "expires_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "session_user_id_user_id_fk": {
-          "name": "session_user_id_user_id_fk",
-          "tableFrom": "session",
-          "tableTo": "user",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.user": {
-      "name": "user",
+    "public.users": {
+      "name": "users",
       "schema": "",
       "columns": {
         "id": {
@@ -261,24 +223,29 @@
           "primaryKey": true,
           "notNull": true
         },
+        "clerk_user_id": {
+          "name": "clerk_user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "first_name": {
+          "name": "first_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "last_name": {
+          "name": "last_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
         "email": {
           "name": "email",
           "type": "text",
           "primaryKey": false,
           "notNull": true
-        },
-        "hash": {
-          "name": "hash",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "is_email_verified": {
-          "name": "is_email_verified",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": true,
-          "default": false
         },
         "image": {
           "name": "image",
@@ -291,31 +258,79 @@
           "type": "role",
           "typeSchema": "public",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "'BASIC'"
         },
         "created_at": {
           "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "now()"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
         }
       },
-      "indexes": {},
+      "indexes": {
+        "email": {
+          "name": "email",
+          "columns": [
+            {
+              "expression": "email",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "clerk_user_id": {
+          "name": "clerk_user_id",
+          "columns": [
+            {
+              "expression": "clerk_user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {
+        "users_clerk_user_id_unique": {
+          "name": "users_clerk_user_id_unique",
+          "nullsNotDistinct": false,
+          "columns": ["clerk_user_id"]
+        },
+        "users_email_unique": {
+          "name": "users_email_unique",
+          "nullsNotDistinct": false,
+          "columns": ["email"]
+        }
+      }
     },
-    "public.module": {
-      "name": "module",
+    "public.modules": {
+      "name": "modules",
       "schema": "",
       "columns": {
         "id": {
@@ -359,10 +374,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "module_user_id_user_id_fk": {
-          "name": "module_user_id_user_id_fk",
-          "tableFrom": "module",
-          "tableTo": "user",
+        "modules_user_id_users_id_fk": {
+          "name": "modules_user_id_users_id_fk",
+          "tableFrom": "modules",
+          "tableTo": "users",
           "columnsFrom": ["user_id"],
           "columnsTo": ["id"],
           "onDelete": "no action",
@@ -370,49 +385,6 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.oauth_account": {
-      "name": "oauth_account",
-      "schema": "",
-      "columns": {
-        "provider_id": {
-          "name": "provider_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "provider_user_id": {
-          "name": "provider_user_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "varchar(191)",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "oauth_account_user_id_user_id_fk": {
-          "name": "oauth_account_user_id_user_id_fk",
-          "tableFrom": "oauth_account",
-          "tableTo": "user",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {
-        "oauth_account_provider_id_provider_user_id_pk": {
-          "name": "oauth_account_provider_id_provider_user_id_pk",
-          "columns": ["provider_id", "provider_user_id"]
-        }
-      },
       "uniqueConstraints": {}
     }
   },
