@@ -62,6 +62,8 @@ export const formatFileSize = (bytes: number) => {
   return `${formattedSize} ${units[unitIndex]}`;
 };
 
+export const canAccessDashboard = (user?: User | null) =>
+  user ? user.role === ROLES.ADMIN || user.role === ROLES.MANAGE : false;
 export const isAdminUser = (user: User) => user.role === ROLES.ADMIN;
 
 export const getUserInitialsLetters = (user: User) => {
