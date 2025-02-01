@@ -44,7 +44,7 @@ export default function Chat() {
         setInput={setInput}
         isLoading={isLoading}
       />
-      <div className="fixed inset-x-0 bottom-0 bg-gradient-to-b from-neutral-900 to-neutral-950">
+      <div className="fixed inset-x-0 bottom-0 z-50 bg-gradient-to-b from-neutral-900 to-neutral-950">
         <ChatForm
           input={input}
           handleInputChange={handleInputChange}

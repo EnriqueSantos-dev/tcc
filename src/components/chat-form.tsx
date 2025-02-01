@@ -1,7 +1,7 @@
-import { UseChatHelpers, UseChatOptions } from "ai/react";
+import { UseChatHelpers } from "ai/react";
+import { ArrowUp, StopCircle } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
 import { Button } from "./ui/button";
-import { SendIcon, StopCircle } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 type ChatFormProps = Pick<
@@ -26,10 +26,10 @@ export default function ChatForm({
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col justify-center px-4">
-      <div className="rounded-lg border border-border p-4 transition-shadow duration-300 focus-within:shadow-[0px_0px_4px_4px_#0a0a0a]">
-        <form onSubmit={handleSubmit} className="flex items-center gap-3">
+      <div className="rounded-2xl border border-border p-4 transition-shadow duration-300 focus-within:shadow-[0px_0px_4px_4px_#0a0a0a]">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <TextareaAutosize
-            className="flex max-h-24 min-h-[60px] w-full resize-none rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex max-h-24 min-h-[40px] w-full resize-none bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
             name="prompt"
             value={input}
             placeholder="Digite sua mensagem. Pressione Ctrl+Enter para enviar."
@@ -42,13 +42,16 @@ export default function ChatForm({
                 type="submit"
                 aria-label={isLoading ? "Para geração" : "Enviar mensagem"}
                 size="icon"
-                className="shrink-0"
+                className="ml-auto shrink-0"
                 disabled={isEmpty && !isLoading}
               >
                 {isLoading ? (
-                  <StopCircle className="size-4" onClick={stop} />
+                  <>
+                    <StopCircle className="mr-2 size-4" onClick={stop} />
+                    Parar
+                  </>
                 ) : (
-                  <SendIcon className="size-4" />
+                  <ArrowUp className="size-4" />
                 )}
               </Button>
             </TooltipTrigger>
@@ -59,8 +62,7 @@ export default function ChatForm({
         </form>
       </div>
       <span className="py-2 text-center text-xs text-muted-foreground">
-        O chatbot sigaa é uma ferramenta <strong>experimental</strong>, sempre
-        consulte a coordenação do seu curso em caso de dúvidas.
+        Conteúdo gerado por <strong>IA</strong>. Use apenas como referência.
       </span>
     </div>
   );
