@@ -17,10 +17,6 @@ export default function EmptyChatScreen({
         <h2 className="text-center text-xl font-semibold text-foreground">
           Bem-vindo ao Chatbot SIGAA
         </h2>
-        <p className="text-center text-sm text-muted-foreground">
-          Este é um chatbot experimental, sempre consulte a coordenação do seu
-          curso em caso de dúvidas.
-        </p>
       </div>
       <div className="grid grid-cols-3 gap-3">
         {samplePrompts.map((prompt) => (
