@@ -12,19 +12,18 @@ export const uploadFileToMemory: UploadFileProvider = async ({
   filename
 }) => {
   const folderToSave = path.join(process.cwd(), "/tmp", folder, filename);
-  console.log("UPLOAD_FILE_TO_MEMORY", folderToSave);
 
   try {
     if (isBuffer(file)) {
       await writeFile(folderToSave, file);
-      return folderToSave;
+      return filename;
     }
 
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
     await writeFile(folderToSave, buffer);
 
-    return folderToSave;
+    return filename;
   } catch (error) {
     console.log("UPLOAD_FILE_TO_MEMORY_ERROR", error);
     return null;
