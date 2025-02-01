@@ -1,9 +1,8 @@
 import { db } from "@/lib/db";
-import { ROLES, users } from "@/lib/db/schemas";
+import { Role, ROLES, users } from "@/lib/db/schemas";
 import { env } from "@/lib/env.mjs";
-import { clerkClient, WebhookEvent } from "@clerk/nextjs/server";
+import { WebhookEvent } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { Webhook } from "svix";
 
@@ -40,49 +39,30 @@ export async function POST(req: Request) {
 
     switch (evt.type) {
       case "user.created":
+      case "user.updated":
         const user = evt.data;
         const userPrimaryEmail = user.email_addresses.filter(
           (e) => e.id === user.primary_email_address_id
         )[0].email_address!;
 
-        await db.insert(users).values({
+        const currentUserRole = user.public_metadata?.role as Role | undefined;
+        const role = currentUserRole ?? ROLES.BASIC;
+
+        const userData = {
           firstName: user.first_name,
           lastName: user.last_name,
           clerkUserId: user.id,
           email: userPrimaryEmail,
-          role: ROLES.BASIC,
+          role,
           image: user.image_url
+        };
+
+        await db.insert(users).values(userData).onConflictDoUpdate({
+          target: users.clerkUserId,
+          set: userData
         });
 
-        // add user role to clerk metadata to be used easily in frontend with hook, and avoid querying the database
-        (await clerkClient()).users.updateUserMetadata(user.id, {
-          publicMetadata: {
-            role: ROLES.BASIC
-          }
-        });
-
-        revalidatePath("/admin/users");
-
         break;
-
-      case "user.updated": {
-        const user = evt.data;
-        const userPrimaryEmail = user.email_addresses.filter(
-          (e) => e.id === user.primary_email_address_id
-        )[0].email_address!;
-
-        await db
-          .update(users)
-          .set({
-            firstName: user.first_name,
-            lastName: user.last_name,
-            email: userPrimaryEmail,
-            image: user.image_url
-          })
-          .where(eq(users.clerkUserId, user.id));
-
-        break;
-      }
 
       case "user.deleted": {
         const user = evt.data;

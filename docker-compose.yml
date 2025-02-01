@@ -1,0 +1,18 @@
+services:
+  db:
+    container_name: tcc_db
+    image: pgvector/pgvector:pg17
+    restart: "on-failure"
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: tcc_db
+    ports:
+      - "5432:5432"
+    entrypoint:
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
