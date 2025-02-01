@@ -2,6 +2,7 @@ import { relations, sql } from "drizzle-orm";
 import { text, timestamp, uniqueIndex, varchar } from "drizzle-orm/pg-core";
 import { pgTable } from "drizzle-orm/pg-core/table";
 import { nanoid } from "nanoid";
+import { documents } from "./documents";
 import { modules } from "./modules";
 import { rolesEnum } from "./roles-enum";
 
@@ -33,7 +34,8 @@ export const users = pgTable(
 );
 
 export const usersRelations = relations(users, ({ many }) => ({
-  modules: many(modules)
+  modules: many(modules),
+  documents: many(documents)
 }));
 
 export type User = typeof users.$inferSelect;

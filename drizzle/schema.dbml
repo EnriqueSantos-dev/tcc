@@ -4,12 +4,6 @@ enum role {
   BASIC
 }
 
-table session {
-  id text [pk, not null]
-  user_id text [not null]
-  expires_at "timestamp with time zone" [not null]
-}
-
 table users {
   id varchar(191) [pk, not null]
   clerk_user_id text [not null, unique]
@@ -58,10 +52,24 @@ table files {
   updated_at timestamp [not null, default: `now()`]
 }
 
-ref: session.user_id - users.id
+table embeddings {
+  id serial [pk, not null, increment]
+  content text
+  metadata jsonb
+  embedding vector(1536) [not null]
+  document_id text [not null]
+
+  indexes {
+    embedding [name: 'embeddingIndex']
+  }
+}
 
 ref: modules.user_id > users.id
 
 ref: documents.module_id > modules.id
 
+ref: documents.owner_id > users.id
+
 ref: documents.file_id - files.id
+
+ref: embeddings.document_id > documents.id
