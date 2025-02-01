@@ -1,12 +1,10 @@
+import { relations } from "drizzle-orm";
 import {
   index,
-  integer,
   jsonb,
   pgTable,
   serial,
   text,
-  timestamp,
-  varchar,
   vector
 } from "drizzle-orm/pg-core";
 import { documents } from "./documents";
@@ -31,3 +29,10 @@ export const embeddings = pgTable(
     )
   })
 );
+
+export const embeddingsRelations = relations(embeddings, ({ one }) => ({
+  document: one(documents, {
+    fields: [embeddings.documentId],
+    references: [documents.id]
+  })
+}));

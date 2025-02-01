@@ -1,18 +1,10 @@
 import { InferSelectModel, relations, sql } from "drizzle-orm";
-import {
-  index,
-  jsonb,
-  pgTable,
-  text,
-  timestamp,
-  varchar,
-  vector
-} from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
+import { embeddings } from "./embeddings";
 import { files } from "./files";
 import { modules } from "./modules";
 import { users } from "./users";
-import { embeddings } from "./embeddings";
 
 export const documents = pgTable("documents", {
   id: varchar("id", { length: 191 })
@@ -40,6 +32,10 @@ export const documentsRelations = relations(documents, ({ one, many }) => ({
   module: one(modules, {
     fields: [documents.moduleId],
     references: [modules.id]
+  }),
+  owner: one(users, {
+    fields: [documents.ownerId],
+    references: [users.id]
   }),
   file: one(files, {
     fields: [documents.fileId],
