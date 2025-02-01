@@ -23,6 +23,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2, PlusCircleIcon } from "lucide-react";
+import { useParams } from "next/navigation";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -30,8 +32,6 @@ import { useServerAction } from "zsa-react";
 import { createDocumentAction } from "../../actions";
 import { createDocumentSchema } from "../../validations";
 import FileUpload from "./file-upload";
-import { Loader2, PlusCircleIcon } from "lucide-react";
-import { useParams } from "next/navigation";
 
 type CreateDocumentDialogProps = {
   canCreate: boolean;
@@ -64,6 +64,7 @@ export default function CreateDocumentDialog({
     if (isPending) return;
     if (!isOpen) {
       form.reset({
+        name: "",
         file: undefined
       });
     }

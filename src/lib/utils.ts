@@ -1,14 +1,47 @@
+import { ClerkAPIError } from "@clerk/types";
 import { type ClassValue, clsx } from "clsx";
 import path from "path";
 import { twMerge } from "tailwind-merge";
 import { ROLES, User } from "./db/schemas";
-import { ClerkAPIError } from "@clerk/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const getFileExtension = (file: File) => path.extname(file.name);
+export const getFileExtension = (filename: string) => path.extname(filename);
+
+export const getFileContentType = (extension: string) => {
+  switch (extension) {
+    case ".pdf":
+      return "application/pdf";
+    case ".doc":
+    case ".docx":
+      return "application/msword";
+    case ".xls":
+    case ".xlsx":
+      return "application/vnd.ms-excel";
+    case ".ppt":
+    case ".pptx":
+      return "application/vnd.ms-powerpoint";
+    case ".jpg":
+    case ".jpeg":
+      return "image/jpeg";
+    case ".png":
+      return "image/png";
+    case ".gif":
+      return "image/gif";
+    case ".bmp":
+      return "image/bmp";
+    case ".txt":
+      return "text/plain";
+    default:
+      return "application/octet-stream";
+  }
+};
+
+export function formatFilename(filename: string): string {
+  return filename.replace(/[\s\-_]+/g, "_");
+}
 
 export const formatFileSize = (bytes: number) => {
   const units = ["B", "KB", "MB", "GB", "TB"];

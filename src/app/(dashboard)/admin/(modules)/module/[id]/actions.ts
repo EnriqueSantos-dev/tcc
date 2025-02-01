@@ -6,12 +6,11 @@ import { env } from "@/lib/env.mjs";
 import { generateDocuments } from "@/lib/langchain";
 import { documentSchema, moduleSchema } from "@/lib/permissions/schemas";
 import { uploadFileFactory } from "@/lib/upload-file/factory";
-import { getFileExtension } from "@/lib/utils";
+import { formatFilename, getFileExtension } from "@/lib/utils";
 import { authenticatedProcedure } from "@/lib/zsa";
 import { openai } from "@ai-sdk/openai";
 import { embedMany } from "ai";
 import { eq } from "drizzle-orm";
-import { nanoid } from "nanoid";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import path from "path";
@@ -184,21 +183,23 @@ export const createDocumentAction = procedure
         );
       }
 
-      const fileExtension = getFileExtension(input.file);
+      const fileExtension = getFileExtension(input.file.name);
       const originalFileName = path.basename(
         input.file.name.trim().toLowerCase(),
         fileExtension
       );
-      const fileNameToSave =
-        `${nanoid()}-${Date.now()}${fileExtension}`.replaceAll(/\s/g, "-");
+      const formattedFileName = formatFilename(
+        `${originalFileName}_${Date.now()}`
+      );
+      const fileNameToSave = `${formattedFileName}${fileExtension}`;
 
-      const bucket = env.SUPABASE_BUCKET;
+      const bucket = `${env.SUPABASE_BUCKET}/files`;
 
       const uploadFileFn = uploadFileFactory();
       const uploadedFileUrl = await uploadFileFn({
         file: input.file,
         folder: bucket,
-        filename: `files/${fileNameToSave}`
+        filename: fileNameToSave
       });
 
       if (!uploadedFileUrl) {
@@ -209,7 +210,7 @@ export const createDocumentAction = procedure
 
       const metadata = {
         fileUrl: uploadedFileUrl,
-        fileName: originalFileName.trim().replaceAll(/\s/g, "-")
+        fileName: fileNameToSave
       };
       const docs = await generateDocuments(input.file, metadata);
 

@@ -55,7 +55,7 @@ const ANSWER_TEMPLATE = `Você é um especialista no sistema SIGAA (Sistema Inte
 
 # Instruções
 - Caso você não saiba a resposta para uma pergunta, você pode dizer que não sabe. E no final sugira que o estudante procure a coordenação do curso para obter mais informações.
-- Responda a pergunta somente com base no contexto fornecido, não forneça informações adicionais.
+- Responda a pergunta somente com base no contexto fornecido.
 - Se a pergunta do usuário foi respondida com alguma informação proveniente do contexto então forneça as fontes utilizadas para responder a pergunta. Com o seguinte formato:
   Referências:
   - [Titulo do documento (sem alterações)](url do documento) 
@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
 
     const model = new ChatOpenAI({
       model: "gpt-4o-mini",
-      temperature: 0.5
+      temperature: 0.7
     });
 
     const client = createClient(

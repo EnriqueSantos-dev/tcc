@@ -26,6 +26,6 @@ export const createDocumentSchema = z.object({
         .max(255, "A descrição não pode ter mais de 255 caracteres")
     ])
     .default(""),
-  file: z.instanceof(File),
+  file: z.instanceof(File, { message: "O arquivo é obrigatório" }),
   moduleId: z.string()
 });

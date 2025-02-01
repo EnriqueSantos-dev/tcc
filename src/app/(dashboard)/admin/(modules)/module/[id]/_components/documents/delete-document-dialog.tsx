@@ -66,7 +66,7 @@ export default function DeleteDocumentDialog({
               Tem certeza que deseja deletar este documento?
             </AlertDialogTitle>
             <AlertDialogDescription>
-              Esta ação não poderá ser desfeita. Caso você se arrenda será
+              Esta ação não poderá ser desfeita. Caso você se arrependa será
               necessário criar um novo documento.
             </AlertDialogDescription>
           </AlertDialogHeader>
