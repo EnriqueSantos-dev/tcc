@@ -1,15 +1,16 @@
 "use server";
 
 import { documents, files, modules } from "@/lib/db/schemas";
+import { embeddings as embeddingsTable } from "@/lib/db/schemas/embeddings";
 import { env } from "@/lib/env.mjs";
 import { generateDocuments } from "@/lib/langchain";
 import { documentSchema, moduleSchema } from "@/lib/permissions/schemas";
-import { uploadToSupabase } from "@/lib/supabase";
+import { uploadFileFactory } from "@/lib/upload-file/factory";
 import { getFileExtension } from "@/lib/utils";
 import { authenticatedProcedure } from "@/lib/zsa";
-import { embed, embedMany } from "ai";
 import { openai } from "@ai-sdk/openai";
-import { eq, InferInsertModel } from "drizzle-orm";
+import { embedMany } from "ai";
+import { eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -17,7 +18,6 @@ import path from "path";
 import { z } from "zod";
 import { editModuleSchema } from "../../validation";
 import { createDocumentSchema, editDocumentSchema } from "./validations";
-import { embeddings as embeddingsTable } from "@/lib/db/schemas/embeddings";
 
 const procedure = authenticatedProcedure.createServerAction();
 
@@ -194,9 +194,10 @@ export const createDocumentAction = procedure
 
       const bucket = env.SUPABASE_BUCKET;
 
-      const uploadedFileUrl = await uploadToSupabase({
+      const uploadFileFn = uploadFileFactory();
+      const uploadedFileUrl = await uploadFileFn({
         file: input.file,
-        bucket,
+        folder: bucket,
         filename: `files/${fileNameToSave}`
       });
 
@@ -255,6 +256,8 @@ export const createDocumentAction = procedure
         );
       });
     } catch (error) {
+      console.log("CREATE_DOCUMENT_ERROR", error);
+
       throw error;
     } finally {
       revalidatePath(`/module/${input.moduleId}`);

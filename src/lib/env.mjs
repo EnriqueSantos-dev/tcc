@@ -1,6 +1,6 @@
 import { createEnv } from "@t3-oss/env-nextjs";
-import { z } from "zod";
 import "dotenv/config";
+import { z } from "zod";
 
 export const env = createEnv({
   /*
@@ -9,6 +9,7 @@ export const env = createEnv({
    */
   server: {
     NODE_ENV: z.enum(["development", "production", "test"]),
+    SAVE_FILE_IN_CLOUD: z.string().transform((val) => val === "1"),
     DATABASE_URL: z.string().url(),
     HOST_NAME: z.string().url(),
     OPENAI_API_KEY: z.string().min(1),
@@ -35,6 +36,7 @@ export const env = createEnv({
    */
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
+    SAVE_FILE_IN_CLOUD: process.env.SAVE_FILE_IN_CLOUD,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     SUPABASE_API_URL: process.env.SUPABASE_API_URL,
     SUPABASE_SECRET_KEY: process.env.SUPABASE_SECRET_KEY,

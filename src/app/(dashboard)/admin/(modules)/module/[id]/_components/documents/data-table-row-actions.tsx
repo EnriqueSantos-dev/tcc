@@ -8,20 +8,20 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { Download, PencilIcon, Trash2Icon } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { z } from "zod";
 import { Action, ACTION_TYPE } from "./data-table";
 import DeleteDocumentDialog from "./delete-document-dialog";
 import EditDocumentDialog from "./edit-document-dialog";
-import { Download, PencilIcon, Trash2Icon } from "lucide-react";
 
 const rowSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
   ownerId: z.string().min(1),
   description: z.string(),
-  fileUrl: z.string().url(),
+  fileUrl: z.union([z.string().url(), z.string().min(1)]),
   fileName: z.string().min(1),
   module: z.object({
     id: z.string().min(1),
