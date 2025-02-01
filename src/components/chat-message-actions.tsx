@@ -1,19 +1,16 @@
 "use client";
 
-import { type Message } from "ai";
-
-import { Button } from "@/components/ui/button";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { cn } from "@/lib/utils";
 import { CheckIcon, CopyIcon } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 interface ChatMessageActionsProps extends React.ComponentProps<"div"> {
-  message: Message;
+  content: string;
 }
 
 export function ChatMessageActions({
-  message,
+  content,
   className,
   ...props
 }: ChatMessageActionsProps) {
@@ -21,7 +18,7 @@ export function ChatMessageActions({
 
   const onCopy = () => {
     if (isCopied) return;
-    copyToClipboard(message.content);
+    copyToClipboard(content);
   };
 
   return (

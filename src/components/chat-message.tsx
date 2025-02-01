@@ -3,15 +3,15 @@ import { Message } from "ai";
 import { BotIcon, UserIcon } from "lucide-react";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
+import { ChatMessageActions } from "./chat-message-actions";
 import { CodeBlock } from "./code-block";
 import { MemoizedReactMarkdown } from "./markdown";
-import { ChatMessageActions } from "./chat-message-actions";
 
-export default function ChatMessage({ message }: { message: Message }) {
+export default function ChatMessage({ content, role }: Message) {
   return (
-    <div key={message.id} className="flex gap-3">
+    <div className="flex gap-3">
       <div className="flex size-8 shrink-0 items-center justify-center rounded-lg border bg-muted text-muted-foreground">
-        {message.role === "user" ? (
+        {role === "user" ? (
           <UserIcon className="size-4 shrink-0" />
         ) : (
           <BotIcon className="size-4 shrink-0" />
@@ -51,9 +51,9 @@ export default function ChatMessage({ message }: { message: Message }) {
             }
           }}
         >
-          {message.content}
+          {content}
         </MemoizedReactMarkdown>
-        {message.role !== "user" && <ChatMessageActions message={message} />}
+        {role !== "user" && <ChatMessageActions content={content} />}
       </div>
     </div>
   );
