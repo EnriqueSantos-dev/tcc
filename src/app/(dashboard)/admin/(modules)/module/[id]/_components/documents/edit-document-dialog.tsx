@@ -20,13 +20,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useServerAction } from "zsa-react";
 import { editDocumentAction } from "../../actions";
 import { editDocumentSchema } from "../../validations";
 import { Action, ACTION_TYPE } from "./data-table";
-import { useTransition } from "react";
 
 export default function EditDocumentDialog({
   id,

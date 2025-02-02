@@ -17,14 +17,12 @@ export default function EmptyChatScreen({
         <h2 className="text-center text-xl font-semibold text-foreground">
           Bem-vindo ao Chatbot SIGAA
         </h2>
-        <p className="text-center text-sm text-muted-foreground">
-          Este é um chatbot experimental, sempre consulte a coordenação do seu
-          curso em caso de dúvidas.
-        </p>
       </div>
       <div className="grid grid-cols-3 gap-3">
         {samplePrompts.map((prompt) => (
           <button
+            type="button"
+            aria-label="Selecionar prompt"
             key={prompt}
             className="ring-primary-500 flex items-center justify-center space-x-2 rounded-lg bg-neutral-800 p-4 text-center text-sm font-medium text-foreground shadow-sm hover:bg-neutral-700 focus-visible:outline-none focus-visible:ring focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900"
             onClick={() => onSelectSamplePrompt(prompt)}

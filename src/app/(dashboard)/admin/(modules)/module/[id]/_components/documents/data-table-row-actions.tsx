@@ -7,21 +7,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
+import { useDownloadFile } from "@/hooks/use-download-file";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
-import Link from "next/link";
+import { Download, Loader2, PencilIcon, Trash2Icon } from "lucide-react";
 import { useState } from "react";
 import { z } from "zod";
 import { Action, ACTION_TYPE } from "./data-table";
 import DeleteDocumentDialog from "./delete-document-dialog";
 import EditDocumentDialog from "./edit-document-dialog";
-import { Download, PencilIcon, Trash2Icon } from "lucide-react";
 
 const rowSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
   ownerId: z.string().min(1),
   description: z.string(),
-  fileUrl: z.string().url(),
+  fileUrl: z.union([z.string().url(), z.string().min(1)]),
   fileName: z.string().min(1),
   module: z.object({
     id: z.string().min(1),
@@ -46,6 +46,9 @@ export function DataTableRowActions({
 }: DataTableRowActionsProps) {
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
   const [isOpenEditDialog, setIsOpenEditDialog] = useState(false);
+  const [open, setIsOpen] = useState(false);
+
+  const { downloadFile, isLoading } = useDownloadFile();
 
   const parsedRow = rowSchema.parse(row);
 
@@ -72,7 +75,7 @@ export function DataTableRowActions({
 
   return (
     <>
-      <DropdownMenu modal={false}>
+      <DropdownMenu modal={false} open={open} onOpenChange={setIsOpen}>
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
@@ -93,15 +96,30 @@ export function DataTableRowActions({
             <Trash2Icon />
             Deletar
           </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link
-              target="_blank"
-              href={parsedRow.fileUrl}
-              download={parsedRow.fileName}
+          <DropdownMenuItem
+            asChild
+            onSelect={(event) => event.preventDefault()}
+          >
+            <button
+              type="button"
+              onClick={async () => {
+                await downloadFile(parsedRow.fileUrl);
+                setIsOpen(false);
+              }}
+              disabled={isLoading}
             >
-              <Download />
-              Baixar arquivo
-            </Link>
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 size-4 animate-spin" />
+                  Baixando...
+                </>
+              ) : (
+                <>
+                  <Download />
+                  Baixar arquivo
+                </>
+              )}
+            </button>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

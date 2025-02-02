@@ -1,6 +1,6 @@
 import { createEnv } from "@t3-oss/env-nextjs";
-import { z } from "zod";
 import "dotenv/config";
+import { z } from "zod";
 
 export const env = createEnv({
   /*
@@ -9,16 +9,12 @@ export const env = createEnv({
    */
   server: {
     NODE_ENV: z.enum(["development", "production", "test"]),
+    SAVE_FILE_IN_CLOUD: z.string().transform((val) => val === "1"),
     DATABASE_URL: z.string().url(),
-    HOST_NAME: z.string().url(),
     OPENAI_API_KEY: z.string().min(1),
     SUPABASE_API_URL: z.string().url(),
     SUPABASE_SECRET_KEY: z.string().min(1),
     SUPABASE_BUCKET: z.string().min(1),
-    GOOGLE_CLIENT_SECRET: z.string().min(1),
-    GOOGLE_CLIENT_ID: z.string().min(1),
-    GITHUB_CLIENT_ID: z.string().min(1),
-    GITHUB_CLIENT_SECRET: z.string().min(1),
     WEBHOOK_SECRET: z.string().min(1)
   },
   /*
@@ -35,15 +31,11 @@ export const env = createEnv({
    */
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
+    SAVE_FILE_IN_CLOUD: process.env.SAVE_FILE_IN_CLOUD,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     SUPABASE_API_URL: process.env.SUPABASE_API_URL,
     SUPABASE_SECRET_KEY: process.env.SUPABASE_SECRET_KEY,
     SUPABASE_BUCKET: process.env.SUPABASE_BUCKET,
-    HOST_NAME: process.env.HOST_NAME,
-    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
-    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
-    GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
-    GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
     NODE_ENV: process.env.NODE_ENV,
     WEBHOOK_SECRET: process.env.WEBHOOK_SECRET
   }
