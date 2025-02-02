@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { UseChatHelpers } from "ai/react";
 import { ArrowUp, StopCircle } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
@@ -41,13 +42,18 @@ export default function ChatForm({
               <Button
                 type="submit"
                 aria-label={isLoading ? "Para geração" : "Enviar mensagem"}
-                size="icon"
-                className="ml-auto shrink-0"
+                className={cn(
+                  "ml-auto h-9 w-fit shrink-0",
+                  !isLoading && "w-9 px-0"
+                )}
                 disabled={isEmpty && !isLoading}
               >
                 {isLoading ? (
                   <>
-                    <StopCircle className="mr-2 size-4" onClick={stop} />
+                    <StopCircle
+                      className="mr-1 size-4 shrink-0"
+                      onClick={stop}
+                    />
                     Parar
                   </>
                 ) : (

@@ -18,7 +18,6 @@ export default function Chat() {
     stop,
     setInput
   } = useChat({
-    keepLastMessageOnError: true,
     onError: () => {
       toast({
         variant: "destructive",
