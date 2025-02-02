@@ -1,10 +1,11 @@
 import { getUser } from "@/lib/users";
 import { canAccessDashboard } from "@/lib/utils";
-import { UserButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import { LogInIcon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
+import UserProfile from "./user-profile";
+import UserProfileSkeleton from "./user-profile-skeleton";
 
 export default async function Header() {
   const { userId } = await auth();
@@ -28,26 +29,23 @@ export default async function Header() {
           </Button>
         </div>
       ) : (
-        <>
+        <div className="flex items-center gap-4">
           {allowAccessDashboard && (
-            <Button asChild size="sm" className="mr-3">
+            <Button asChild size="sm">
               <Link href="/admin/modules">
                 Dashboard
                 <LogInIcon className="mr-2 size-4" />
               </Link>
             </Button>
           )}
-          <UserButton
-            showName
-            appearance={{
-              elements: {
-                userButtonTrigger: {
-                  color: "hsl(var(----muted-foreground))"
-                }
-              }
-            }}
+          <UserProfile
+            fallback={
+              <div className="w-40">
+                <UserProfileSkeleton className="flex-row-reverse" />
+              </div>
+            }
           />
-        </>
+        </div>
       )}
     </header>
   );

@@ -1,6 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
-import { BotIcon, Component } from "lucide-react";
+import { BotIcon } from "lucide-react";
 import Link from "next/link";
+import SidebarMenuItems from "./sidebar-menu-items";
 import {
   Sidebar as ShadcnSidebar,
   SidebarContent,
@@ -9,12 +10,10 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem
+  SidebarMenu
 } from "./ui/sidebar";
 import UserProfile from "./user-profile";
-import SidebarMenuItems from "./sidebar-menu-items";
+import UserProfileSkeleton from "./user-profile-skeleton";
 
 export default async function Sidebar() {
   const { sessionClaims } = await auth();
@@ -42,7 +41,12 @@ export default async function Sidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <UserProfile />
+        <div className="flex items-center gap-3 rounded-md bg-zinc-900 p-2 transition-colors hover:bg-zinc-800">
+          <UserProfile
+            showNameInReverseOrder
+            fallback={<UserProfileSkeleton />}
+          />
+        </div>
       </SidebarFooter>
     </ShadcnSidebar>
   );
