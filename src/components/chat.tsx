@@ -10,6 +10,7 @@ export default function Chat() {
   const { toast } = useToast();
   const containerRef = useRef<HTMLDivElement>(null);
   const {
+    append,
     messages,
     input,
     handleInputChange,
@@ -41,6 +42,7 @@ export default function Chat() {
       <PreviewMessages
         messages={messages}
         setInput={setInput}
+        append={append}
         isLoading={isLoading}
       />
       <div className="fixed inset-x-0 bottom-0 z-50 bg-gradient-to-b from-neutral-900 to-neutral-950">
