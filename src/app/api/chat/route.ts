@@ -1,16 +1,12 @@
 import { LangChainAdapter, Message as VercelChatMessage } from "ai";
 import { NextRequest, NextResponse } from "next/server";
 
-import { createClient } from "@supabase/supabase-js";
-
-import { SupabaseVectorStore } from "@langchain/community/vectorstores/supabase";
+import { getVectorStoreRetriever } from "@/lib/vector-store-retrievers/factory";
 import { Document } from "@langchain/core/documents";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { RunnableSequence } from "@langchain/core/runnables";
 import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
-
-export const runtime = "edge";
 
 const combineDocumentsFn = (docs: Document[]) => {
   const serializedDocs = docs.map(
@@ -54,7 +50,7 @@ const ANSWER_TEMPLATE = `Você é um especialista no sistema SIGAA (Sistema Inte
 ) da UFAL (Universidade Federal de Alagoas) e está ajudando um estudante com dúvidas sobre o sistema. Como especialista, você deve responder a pergunta do estudante, fornecendo informações claras e precisas com base no contexto fornecido.
 
 # Instruções
-- Caso você não saiba a resposta para uma pergunta, você pode dizer que não sabe. E no final sugira que o estudante procure a coordenação do curso para obter mais informações.
+- Caso você não saiba a resposta para uma pergunta, você pode dizer que não sabe.
 - Responda a pergunta somente com base no contexto fornecido.
 - Se a pergunta do usuário foi respondida com alguma informação proveniente do contexto então forneça as fontes utilizadas para responder a pergunta. Com o seguinte formato:
   Referências:
@@ -82,17 +78,8 @@ export async function POST(req: NextRequest) {
 
     const model = new ChatOpenAI({
       model: "gpt-4o-mini",
-      temperature: 0.7
-    });
-
-    const client = createClient(
-      process.env.SUPABASE_API_URL!,
-      process.env.SUPABASE_SECRET_KEY!
-    );
-    const vectorStore = new SupabaseVectorStore(new OpenAIEmbeddings(), {
-      client,
-      tableName: "embeddings",
-      queryName: "match_documents"
+      temperature: 0.7,
+      verbose: true
     });
 
     const standaloneQuestionChain = RunnableSequence.from([
@@ -101,14 +88,15 @@ export async function POST(req: NextRequest) {
       new StringOutputParser()
     ]);
 
-    const retriever = vectorStore.asRetriever({
-      k: 5
+    const retriever = await getVectorStoreRetriever({
+      embeddingsProvider: new OpenAIEmbeddings(),
+      config: { k: 5 }
     });
-
     const retrievalChain = retriever.pipe(combineDocumentsFn);
 
     const answerChain = RunnableSequence.from([
       {
+        // @ts-ignore
         context: RunnableSequence.from([
           (input) => input.question,
           retrievalChain
