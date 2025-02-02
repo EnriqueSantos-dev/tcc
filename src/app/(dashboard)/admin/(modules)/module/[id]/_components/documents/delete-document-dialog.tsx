@@ -48,12 +48,13 @@ export default function DeleteDocumentDialog({
       });
 
       if (error) {
-        onOpenChange(false);
         toast({
           variant: "destructive",
           title: error.message
         });
       }
+
+      onOpenChange(false);
     });
   };
 
