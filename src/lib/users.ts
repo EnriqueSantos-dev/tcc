@@ -1,13 +1,13 @@
 import "server-only";
 
 import { PaginatedResource } from "@/types";
-import { and, count, desc, eq, ilike, is, isNull, or } from "drizzle-orm";
-import { Role, User, users } from "./db/schemas";
 import { auth } from "@clerk/nextjs/server";
-import { getUserPermissions } from "./permissions";
-import { AppAbility } from "./permissions/schemas";
+import { and, count, desc, eq, ilike, isNull, or } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { db } from "./db";
+import { Role, User, users } from "./db/schemas";
+import { getUserPermissions } from "./permissions";
+import { AppAbility } from "./permissions/schemas";
 
 type GetPaginatedUsersParams = {
   search: string | null;

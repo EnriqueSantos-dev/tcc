@@ -13,7 +13,7 @@ export default function AdminLayout({
     <SidebarProvider>
       <Sidebar />
       <main className="grid flex-1 grid-rows-[auto_1fr] overflow-auto">
-        <div className="flex h-12 items-center border border-border px-4">
+        <div className="flex h-12 items-center border-b border-border px-4">
           <SidebarTrigger />
         </div>
         {children}

@@ -7,7 +7,6 @@ import {
 } from "@radix-ui/react-icons";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -27,6 +26,10 @@ export function DataTablePagination<TData>({
   paginationInfo
 }: DataTablePaginationProps<TData>) {
   const { queryParams } = useRouterStuff();
+
+  if (!paginationInfo.pagesCount) {
+    return null;
+  }
 
   return (
     <div className="flex items-center justify-between px-2">

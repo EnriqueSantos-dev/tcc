@@ -1,14 +1,13 @@
+import { DataTablePagination } from "@/components/data-table-pagination";
 import { defaultPaginationConfig } from "@/constants/pagination";
 import { getPaginatedModules } from "@/lib/modules";
-import { getUserPermissions } from "@/lib/permissions";
+import { getCurrentUser } from "@/lib/users";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { columns } from "./_components/columns";
 import { DataTable } from "./_components/data-table";
-import { DataTablePagination } from "./_components/data-table-pagination";
 import DataTableToolbar from "./_components/data-table-toolbar";
-import { getCurrentUser } from "@/lib/users";
-import { Metadata } from "next";
 
 const modulesSearchParamsSchema = z.object({
   search: z.string().optional(),

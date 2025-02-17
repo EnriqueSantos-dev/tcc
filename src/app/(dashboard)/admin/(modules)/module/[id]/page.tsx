@@ -16,22 +16,14 @@ import { notFound } from "next/navigation";
 import { z } from "zod";
 import DeleteModuleDialog from "./_components/delete-module-dialog";
 
+import { getCurrentUser } from "@/lib/users";
+import { cache } from "react";
+import { DocumentDataTableColumnDto } from "./_components/documents/columns";
 import { DataTable } from "./_components/documents/data-table";
 import EditModuleDialogForm from "./_components/edit-module-dialog-form";
-import { DocumentDataTableColumnDto } from "./_components/documents/columns";
-import { getCurrentUser } from "@/lib/users";
 
-const moduleByIdSearchParamsSchema = z.object({
-  search: z.string().optional(),
-  page: z.coerce.number().gt(0).catch(1),
-  limit: z
-    .string()
-    .optional()
-    .default(defaultPaginationConfig.allowedLimits[0].toString())
-    .refine((value) => {
-      return defaultPaginationConfig.allowedLimits.includes(parseInt(value));
-    })
-    .catch(defaultPaginationConfig.allowedLimits[0].toString())
+const getCachedModuleById = cache(async (id: string) => {
+  return await getModuleById(id);
 });
 
 function getDocumentUserPermissions(
@@ -56,15 +48,39 @@ function getDocumentUserPermissions(
   };
 }
 
+const moduleByIdSearchParamsSchema = z.object({
+  search: z.string().optional(),
+  page: z.coerce.number().gt(0).catch(1),
+  limit: z
+    .string()
+    .optional()
+    .default(defaultPaginationConfig.allowedLimits[0].toString())
+    .refine((value) => {
+      return defaultPaginationConfig.allowedLimits.includes(parseInt(value));
+    })
+    .catch(defaultPaginationConfig.allowedLimits[0].toString())
+});
+
+type PageParams = Promise<{ id: string }>;
+
+export async function generateMetadata({ params }: { params: PageParams }) {
+  const { id } = await params;
+  const moduleFromDb = await getCachedModuleById(id);
+
+  return {
+    title: moduleFromDb?.name
+  };
+}
+
 export default async function ModulePageById(props: {
-  params: Promise<{ id: string }>;
+  params: PageParams;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const searchParams = await props.searchParams;
   const params = await props.params;
   const moduleId = params.id;
   const { userAbilities } = await getCurrentUser();
-  const moduleFromDb = await getModuleById(moduleId);
+  const moduleFromDb = await getCachedModuleById(moduleId);
 
   if (!moduleFromDb) notFound();
 
