@@ -1,5 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
-import { BotIcon } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import SidebarMenuItems from "./sidebar-menu-items";
 import {
@@ -24,10 +24,15 @@ export default async function Sidebar() {
       <SidebarHeader>
         <Link
           href="/"
-          className="flex items-center gap-2 rounded-md bg-zinc-800 p-2 transition-colors hover:bg-zinc-800/70 hover:underline"
+          className="flex items-center gap-2 rounded-md bg-zinc-800 p-2 text-lg font-bold transition-colors hover:bg-zinc-800/70 hover:underline"
         >
-          <BotIcon className="size-6" />
-          Chatbot Sigaa
+          <Image
+            src="/dog-logo.svg"
+            width={32}
+            height={32}
+            alt="Cachorro em formato animado"
+          />
+          Pluto Chatbot
         </Link>
       </SidebarHeader>
       <SidebarContent>

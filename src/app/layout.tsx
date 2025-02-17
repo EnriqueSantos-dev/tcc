@@ -10,11 +10,11 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
-    default: "Chatboot SIGAA",
-    template: "%s | Chatbot SIGAA"
+    default: "Pluto Chatbot",
+    template: "%s | Pluto Chatbot"
   },
   description:
-    "Um chatbot para auxiliar estudantes da UFAL com a ferramenta SIGAA."
+    "Pluto: um sistema de chatbot que utiliza ia e rag para responder dúvidas sobre o sigaa."
 };
 
 export default function RootLayout({
