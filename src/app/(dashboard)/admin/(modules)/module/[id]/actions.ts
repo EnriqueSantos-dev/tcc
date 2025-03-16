@@ -50,7 +50,7 @@ export const editModule = procedure
       })
       .where(eq(modules.id, input.id));
 
-    revalidatePath(`/module/${input.id}`);
+    revalidatePath(`/admin/module/${input.id}`);
   });
 
 export const deleteModule = procedure
@@ -84,7 +84,7 @@ export const deleteModule = procedure
 
     await db.delete(modules).where(eq(modules.id, input.id));
 
-    redirect("/modules");
+    redirect("/admin/modules");
   });
 
 export const deleteDocumentAction = procedure
@@ -145,7 +145,7 @@ export const deleteDocumentAction = procedure
     } catch (error) {
       throw error;
     } finally {
-      revalidatePath(`/module/${input.moduleId}`);
+      revalidatePath(`/admin/module/${input.moduleId}`);
     }
   });
 
@@ -167,7 +167,6 @@ export const createDocumentAction = procedure
         );
       }
 
-      // avoid using schema because new documents no have amount of fields
       const documentParsed = documentSchema.parse({
         id: "", // empty for new documents,
         ownerId: "", // irrelevant for now,
@@ -261,7 +260,7 @@ export const createDocumentAction = procedure
 
       throw error;
     } finally {
-      revalidatePath(`/module/${input.moduleId}`);
+      revalidatePath(`/admin/module/${input.moduleId}`);
     }
   });
 
@@ -305,6 +304,6 @@ export const editDocumentAction = procedure
     } catch (error) {
       throw error;
     } finally {
-      revalidatePath(`/module/${input.moduleId}`);
+      revalidatePath(`/admin/module/${input.moduleId}`);
     }
   });
