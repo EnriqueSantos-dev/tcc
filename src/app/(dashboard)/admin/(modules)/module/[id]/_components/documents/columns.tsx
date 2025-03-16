@@ -1,12 +1,9 @@
-import { Button } from "@/components/ui/button";
 import { File, Module } from "@/lib/db/schemas";
 import { Document } from "@/lib/db/schemas/documents";
+import { formatFileSize } from "@/lib/utils";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
-import { ExternalLinkIcon } from "lucide-react";
-import Link from "next/link";
 import { DataTableMeta } from "./data-table";
 import { DataTableRowActions } from "./data-table-row-actions";
-import { formatFileSize } from "@/lib/utils";
 
 export type DocumentDataTableColumnDto = Document & {
   file: File;
@@ -65,6 +62,7 @@ export const columns: ColumnDef<DocumentDataTableColumnDto, any>[] = [
     cell: ({ row, table }) => {
       return (
         <DataTableRowActions
+          key={row.original.id}
           row={{
             id: row.original.id,
             description: row.original.description ?? "",
