@@ -9,18 +9,20 @@ const isPublicRoute = createRouteMatcher([
   "/api/webhooks/clerk(.*)"
 ]);
 
-const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
+const isAdminRoute = createRouteMatcher(["/admin/(.*)"]);
 
 export default clerkMiddleware(async (auth, req) => {
-  if (!isPublicRoute(req)) {
+  const { userId, sessionClaims } = await auth();
+  if (!isPublicRoute(req) && !userId) {
     await auth.protect();
   }
 
+  const isBasicUser =
+    !sessionClaims?.metadata?.role ||
+    Boolean(sessionClaims?.metadata?.role === ROLES.BASIC);
+
   // Protect all routes starting with `/admin`
-  if (
-    isAdminRoute(req) &&
-    (await auth()).sessionClaims?.metadata?.role === ROLES.BASIC
-  ) {
+  if (isAdminRoute(req) && isBasicUser) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 });
