@@ -61,7 +61,9 @@ export async function POST(req: NextRequest) {
     });
 
     return LangChainAdapter.toDataStreamResponse(stream);
-  } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: e.status ?? 500 });
+  } catch (error: any) {
+    console.log("error /api/chat", error);
+
+    return new NextResponse("internal server error", { status: 500 });
   }
 }
