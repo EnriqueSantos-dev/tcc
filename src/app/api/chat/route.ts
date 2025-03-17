@@ -1,73 +1,16 @@
-import { LangChainAdapter, Message as VercelChatMessage } from "ai";
+import { LangChainAdapter } from "ai";
 import { NextRequest, NextResponse } from "next/server";
 
-import { getVectorStoreRetriever } from "@/lib/vector-store-retrievers/factory";
-import { Document } from "@langchain/core/documents";
+import {
+  answerPrompt,
+  combineDocumentsFn,
+  condenseQuestionPrompt,
+  formatVercelMessages
+} from "@/lib/ai/prompts";
+import { Retriever } from "@/lib/ai/retriever";
 import { StringOutputParser } from "@langchain/core/output_parsers";
-import { PromptTemplate } from "@langchain/core/prompts";
 import { RunnableSequence } from "@langchain/core/runnables";
-import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
-
-const combineDocumentsFn = (docs: Document[]) => {
-  const serializedDocs = docs.map(
-    (doc) => `
-    <Início do Documento>
-      Título: ${doc.metadata.fileName}
-      URL: ${doc.metadata.fileUrl}
-      Conteúdo: ${doc.pageContent}
-    <Fim do Documento>
-    `
-  );
-  return serializedDocs.join("\n\n");
-};
-
-const formatVercelMessages = (chatHistory: VercelChatMessage[]) => {
-  const formattedDialogueTurns = chatHistory.map((message) => {
-    if (message.role === "user") {
-      return `Usuário: ${message.content}`;
-    } else if (message.role === "assistant") {
-      return `IA: ${message.content}`;
-    } else {
-      return `${message.role}: ${message.content}`;
-    }
-  });
-  return formattedDialogueTurns.join("\n");
-};
-
-const CONDENSE_QUESTION_TEMPLATE = `Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question, in its original language.
-
-<chat_history>
-  {chat_history}
-</chat_history>
-
-Follow Up Input: {question}
-Standalone question:`;
-const condenseQuestionPrompt = PromptTemplate.fromTemplate(
-  CONDENSE_QUESTION_TEMPLATE
-);
-
-const ANSWER_TEMPLATE = `Você é um especialista no sistema SIGAA (Sistema Integrado de Gestão de Atividades Acadêmicas
-) da UFAL (Universidade Federal de Alagoas) e está ajudando um estudante com dúvidas sobre o sistema. Como especialista, você deve responder a pergunta do estudante, fornecendo informações claras e precisas com base no contexto fornecido.
-
-# Instruções
-- Caso você não saiba a resposta para uma pergunta, você pode dizer que não sabe.
-- Responda a pergunta somente com base no contexto fornecido.
-- Se a pergunta do usuário foi respondida com alguma informação proveniente do contexto então forneça as fontes utilizadas para responder a pergunta. Com o seguinte formato:
-  Referências:
-  - [Titulo do documento (sem alterações)](url do documento) 
-  - [Titulo do documento (sem alterações)](url do documento)
-
-<contexto>
-  {context}
-</contexto>
-
-<histórico>
-  {chat_history}
-</histórico>
-
-Pergunta: {question}
-`;
-const answerPrompt = PromptTemplate.fromTemplate(ANSWER_TEMPLATE);
+import { ChatOpenAI } from "@langchain/openai";
 
 export async function POST(req: NextRequest) {
   try {
@@ -78,8 +21,7 @@ export async function POST(req: NextRequest) {
 
     const model = new ChatOpenAI({
       model: "gpt-4o-mini",
-      temperature: 0.7,
-      verbose: true
+      temperature: 0.5
     });
 
     const standaloneQuestionChain = RunnableSequence.from([
@@ -88,15 +30,11 @@ export async function POST(req: NextRequest) {
       new StringOutputParser()
     ]);
 
-    const retriever = await getVectorStoreRetriever({
-      embeddingsProvider: new OpenAIEmbeddings(),
-      config: { k: 5 }
-    });
+    const retriever = new Retriever();
     const retrievalChain = retriever.pipe(combineDocumentsFn);
 
     const answerChain = RunnableSequence.from([
       {
-        // @ts-ignore
         context: RunnableSequence.from([
           (input) => input.question,
           retrievalChain

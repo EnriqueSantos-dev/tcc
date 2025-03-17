@@ -88,7 +88,7 @@ export default function CreateDocumentDialog({
       return;
     }
 
-    setIsOpen(false);
+    handleOpenChange(false);
   });
 
   return (
